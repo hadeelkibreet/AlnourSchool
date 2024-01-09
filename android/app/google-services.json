@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1072248244520",
+    "firebase_url": "https://alnour-e081c-default-rtdb.firebaseio.com",
+    "project_id": "alnour-e081c",
+    "storage_bucket": "alnour-e081c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072248244520:android:32207935d55b0b4714a81d",
+        "android_client_info": {
+          "package_name": "com.example.alnour"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVXhx1nXOqEbW7nzsiy-2ePN8ZrYLZK9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
