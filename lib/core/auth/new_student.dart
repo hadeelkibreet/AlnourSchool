@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/constants/backgroundimage.dart';
+import '../../constants/constants/circle.dart';
 import '../../constants/constants/images.dart';
 
 class NewStudent extends StatefulWidget {
@@ -63,139 +64,149 @@ class _NewStudentState extends State<NewStudent> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          body: Stack(
-            children: [
-              BackGroundImage(),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  Image.asset(
-                                    ImageAssets.nour,
-                                    width: 80,
-                                  ),
-                                  Image.asset(
-                                    ImageAssets.book,
-                                    width: 80,
-                                  ),
-                                ],
-                              ),
-                              Image.asset(
-                                ImageAssets.school,
-                                width: 70,
-                              ),
-                            ],
-                          ),
-                          // SizedBox(
-                          //   height: 20,
-                          // ),
-                          // Row(
-                          //   mainAxisSize: MainAxisSize.min,
-                          //   children: [
-                          //     CircleWithNumber(
-                          //         number: 1,
-                          //         radius: _currentPageIndex >= 0 ? 16 : 20,
-                          //         color: _currentPageIndex >= 0
-                          //             ? Colors.deepPurpleAccent
-                          //             : Colors.black12,
-                          //         textStyle: TextStyle()),
-                          //     SizedBox(
-                          //       width: 10,
-                          //     ),
-                          //     CircleWithNumber(
-                          //         number: 2,
-                          //         radius: _currentPageIndex >= 0 ? 16 : 20,
-                          //         color: _currentPageIndex >= 1
-                          //             ? Colors.deepPurpleAccent
-                          //             : Colors.black12,
-                          //         textStyle: TextStyle()),
-                          //     SizedBox(
-                          //       width: 10,
-                          //     ),
-                          //     CircleWithNumber(
-                          //         number: 3,
-                          //         radius: _currentPageIndex >= 0 ? 16 : 20,
-                          //         color: _currentPageIndex >= 2
-                          //             ? Colors.deepPurpleAccent
-                          //             : Colors.black12,
-                          //         textStyle: TextStyle()),
-                          //   ],
-                          // ),
-                        ],
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Stack(
+              children: [
+                BackGroundImage(),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    Image.asset(
+                                      ImageAssets.nour,
+                                      width: 80,
+                                    ),
+                                    Image.asset(
+                                      ImageAssets.book,
+                                      width: 80,
+                                    ),
+                                  ],
+                                ),
+                                Image.asset(
+                                  ImageAssets.school,
+                                  width: 70,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleWithNumber(
+                                    number: 1,
+                                    radius: _currentPageIndex >= 0 ? 16 : 20,
+                                    color: _currentPageIndex >= 0
+                                        ? Colors.deepPurpleAccent
+                                        : Colors.black12,
+                                    textStyle: TextStyle()),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                CircleWithNumber(
+                                    number: 2,
+                                    radius: _currentPageIndex >= 0 ? 16 : 20,
+                                    color: _currentPageIndex >= 1
+                                        ? Colors.deepPurpleAccent
+                                        : Colors.black12,
+                                    textStyle: TextStyle()),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                CircleWithNumber(
+                                    number: 3,
+                                    radius: _currentPageIndex >= 0 ? 16 : 20,
+                                    color: _currentPageIndex >= 2
+                                        ? Colors.deepPurpleAccent
+                                        : Colors.black12,
+                                    textStyle: TextStyle()),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formkey,
-                        child: Container(
-                          height: MediaQuery.of(context).size.height,
-                          child: PageView(
-                            controller: _pageController,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentPageIndex = index;
-                                print(index);
-                              });
-                            },
-                            children: [
-                              Center(
-                                  child: Step0(
-                                      nameController: nameController,
-                                      fathernameController:
-                                          fathernameController,
-                                      mathernameController:
-                                          mathernameController,
-                                      sexController: sexController,
-                                      ageController: ageController,
-                                      lastnameController: lastnameController)),
-                              Center(
-                                  child: Step1(
-                                      emailController: emailController,
-                                      passwordController: passwordController,
-                                      chakepasswordController:
-                                          chakepasswordController,
-                                      phoneController: phoneController,
-                                      classController: classController,
-                                      adrissController: adrissController)),
-                              Center(child: Step2()),
-                            ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Form(
+                          key: _formkey,
+                          child: Container(
+                            height: MediaQuery.of(context).size.height,
+                            child: PageView(
+                              physics: NeverScrollableScrollPhysics(),
+                              controller: _pageController,
+                              onPageChanged: (index) {
+                                setState(() {
+                                  _currentPageIndex = index;
+                                  print(index);
+                                });
+                              },
+                              children: [
+                                Center(
+                                    child: Step0(
+                                        nameController: nameController,
+                                        fathernameController:
+                                            fathernameController,
+                                        mathernameController:
+                                            mathernameController,
+                                        sexController: sexController,
+                                        ageController: ageController,
+                                        lastnameController:
+                                            lastnameController)),
+                                Center(
+                                    child: Step1(
+                                        emailController: emailController,
+                                        passwordController: passwordController,
+                                        chakepasswordController:
+                                            chakepasswordController,
+                                        phoneController: phoneController,
+                                        classController: classController,
+                                        adrissController: adrissController)),
+                                Center(child: Step2()),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.only(left: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _currentPageIndex == 0
-                    ? SizedBox()
-                    : FloatingActionButton(
-                        onPressed: _previousPage,
-                        child: Icon(Icons.arrow_back_ios),
-                      ),
-                FloatingActionButton(
-                  onPressed: _nextPage,
-                  child: Icon(Icons.arrow_forward_ios),
+                  ],
                 ),
               ],
             ),
+          ),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _currentPageIndex == 0
+                  ? SizedBox()
+                  : Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: FloatingActionButton(
+                        onPressed: _previousPage,
+                        child: Icon(Icons.arrow_back_ios),
+                      ),
+                    ),
+              FloatingActionButton(
+                onPressed: _nextPage,
+                child: Icon(Icons.arrow_forward_ios),
+              ),
+            ],
           )),
     );
   }
@@ -224,7 +235,6 @@ class Step0 extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
             controller: nameController,
@@ -476,7 +486,6 @@ class _Step1State extends State<Step1> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
             controller: widget.emailController,
@@ -606,12 +615,14 @@ class _Step1State extends State<Step1> {
             height: 15,
           ),
           Container(
+            width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: 1),
               borderRadius: BorderRadius.circular(30),
             ),
             child: DropdownButton<String>(
+              isExpanded: true,
               alignment: AlignmentDirectional.center,
               value: selectedSemester,
               hint: Text('اختر الفصل الدراسي'),
@@ -630,9 +641,11 @@ class _Step1State extends State<Step1> {
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(
-                    value,
-                    style: TextStyle(color: Colors.white),
+                  child: Center(
+                    child: Text(
+                      value,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 );
               }).toList(),
@@ -701,69 +714,93 @@ class _Step2State extends State<Step2> {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          ElevatedButton(
-            onPressed: () => _pickImage(ImageSource.gallery, 'profile'),
-            child: Text('تحميل الصورة الشخصية'),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => _pickImage(ImageSource.gallery, 'profile'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('تحميل الصورة الشخصية'),
+                      if (_profileImageName != null)
+                        Text(
+                          _profileImageName!,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'boutros',
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: 15,
           ),
-          if (_profileImageName != null)
-            Text(
-              _profileImageName!,
-              style: TextStyle(
-                color: Colors.white70,
-                fontFamily: 'boutros',
-                fontSize: 16,
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => _pickImage(ImageSource.gallery, 'id'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('تحميل صورة الهوية الشخصية'),
+                      if (_idImageName != null)
+                        Text(
+                          _idImageName!,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'boutros',
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                    ],
+                  ),
+                ),
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
+            ],
+          ),
           SizedBox(
             height: 25,
           ),
-          ElevatedButton(
-            onPressed: () => _pickImage(ImageSource.gallery, 'id'),
-            child: Text('تحميل صورة الهوية الضخصية'),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          if (_idImageName != null)
-            Text(
-              _idImageName!,
-              style: TextStyle(
-                color: Colors.white70,
-                fontFamily: 'boutros',
-                fontSize: 16,
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () =>
+                      _pickImage(ImageSource.gallery, 'certificate'),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(' تحميل صورة الشهادة التي تسبق المرحلة الدراسية'),
+                      if (_certificateImageName != null)
+                        Text(
+                          _certificateImageName!,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'boutros',
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                    ],
+                  ),
+                ),
               ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          SizedBox(
-            height: 25,
+            ],
           ),
-          ElevatedButton(
-            onPressed: () => _pickImage(ImageSource.gallery, 'certificate'),
-            child: Text(' تحميل صورة الشهادة التي تسبق المرحلة الدراسية'),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          if (_certificateImageName != null)
-            Text(
-              _certificateImageName!,
-              style: TextStyle(
-                color: Colors.white70,
-                fontFamily: 'boutros',
-                fontSize: 16,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
         ],
       ),
     );
