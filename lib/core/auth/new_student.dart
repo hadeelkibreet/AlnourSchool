@@ -1,37 +1,44 @@
-import 'dart:io';
-
+import 'package:alnour/core/auth/new_student_step/step0/step0.dart';
+import 'package:alnour/core/auth/new_student_step/step1/step1.dart';
+import 'package:alnour/core/auth/new_student_step/step2/step2.dart';
+import 'package:alnour/model/student_model.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/circle.dart';
 import '../../constants/constants/images.dart';
+import '../../providers/services_provider.dart';
 
-class NewStudent extends StatefulWidget {
+class NewStudent extends ConsumerStatefulWidget {
   const NewStudent({Key? key}) : super(key: key);
+  static Route<void> route() {
+    return MaterialPageRoute<void>(builder: (_) => NewStudent());
+  }
 
   @override
-  State<NewStudent> createState() => _NewStudentState();
+  ConsumerState<NewStudent> createState() => _NewStudentState();
 }
 
-class _NewStudentState extends State<NewStudent> {
+class _NewStudentState extends ConsumerState<NewStudent> {
   final GlobalKey _formkey = GlobalKey<FormState>();
   late PageController _pageController;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController fathernameController = TextEditingController();
   final TextEditingController mathernameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
-  final TextEditingController sexController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
+  final TextEditingController imageController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController chakepasswordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController classController = TextEditingController();
+  final TextEditingController clsController = TextEditingController();
   final TextEditingController adrissController = TextEditingController();
-
+  bool AcceptController = true;
+  String hadil = 'hadil';
   int _currentPageIndex = 0;
   List<String> _stepTitles = ['w', 'S', 'p'];
   void _nextPage() {
@@ -39,6 +46,23 @@ class _NewStudentState extends State<NewStudent> {
       _pageController.nextPage(
           duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
+  }
+
+  void _finalPage() {
+    ref.read(servieceProvider).addstudent(StudentModel(
+        age: ageController.text,
+        adriss: adrissController.text,
+        cls: clsController.text,
+        email: emailController.text,
+        fathername: fathernameController.text,
+        image: imageController.text,
+        lastname: lastnameController.text,
+        mathername: mathernameController.text,
+        name: nameController.text,
+        password: passwordController.text,
+        Accept: AcceptController,
+        phone: phoneController.hashCode,
+        gender: genderController.text));
   }
 
   void _previousPage() {
@@ -165,7 +189,7 @@ class _NewStudentState extends State<NewStudent> {
                                             fathernameController,
                                         mathernameController:
                                             mathernameController,
-                                        sexController: sexController,
+                                        genderController: genderController,
                                         ageController: ageController,
                                         lastnameController:
                                             lastnameController)),
@@ -176,9 +200,12 @@ class _NewStudentState extends State<NewStudent> {
                                         chakepasswordController:
                                             chakepasswordController,
                                         phoneController: phoneController,
-                                        classController: classController,
+                                        clsController: clsController,
                                         adrissController: adrissController)),
-                                Center(child: Step2()),
+                                Center(
+                                    child: Step2(
+                                  imageController: imageController,
+                                )),
                               ],
                             ),
                           ),
@@ -203,606 +230,15 @@ class _NewStudentState extends State<NewStudent> {
                       ),
                     ),
               FloatingActionButton(
-                onPressed: _nextPage,
+                onPressed: () {
+                  if (chakepasswordController.text == passwordController.text) {
+                    _currentPageIndex == 2 ? _finalPage() : _nextPage();
+                  }
+                },
                 child: Icon(Icons.arrow_forward_ios),
               ),
             ],
           )),
-    );
-  }
-}
-
-class Step0 extends StatelessWidget {
-  final TextEditingController nameController;
-  final TextEditingController fathernameController;
-  final TextEditingController mathernameController;
-  final TextEditingController lastnameController;
-  final TextEditingController sexController;
-  final TextEditingController ageController;
-
-  const Step0({
-    Key? key,
-    required this.nameController,
-    required this.fathernameController,
-    required this.mathernameController,
-    required this.sexController,
-    required this.ageController,
-    required this.lastnameController,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      child: Column(
-        children: [
-          TextField(
-            controller: nameController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'الأسم الأول',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.face_retouching_natural_outlined,
-                  color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: fathernameController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'أسم الأب',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.face_6_outlined,
-                  color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: mathernameController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'أسم الام',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.face_3_outlined,
-                  color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: lastnameController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'أسم العائلة',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.foundation_outlined,
-                  color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              // إضافة حقل اختيار تاريخ الميلاد
-              BirthDateField(
-                agecontroller: ageController,
-              ),
-              // SizedBox(width: 15,),
-              // إضافة حقل اختيار الجنس
-              GenderSelectionField(
-                controller: sexController,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// حقل اختيار الجنس
-class GenderSelectionField extends StatefulWidget {
-  final TextEditingController controller;
-
-  GenderSelectionField({required this.controller});
-
-  @override
-  _GenderSelectionFieldState createState() => _GenderSelectionFieldState();
-}
-
-class _GenderSelectionFieldState extends State<GenderSelectionField> {
-  String selectedGender = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        DefaultTextStyle(
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-            child: Text('اختر الجنس')),
-        SizedBox(height: 8),
-        ToggleButtons(
-          selectedBorderColor: Colors.white,
-          borderColor: Colors.white,
-          isSelected: [
-            selectedGender == 'male',
-            selectedGender == 'female',
-          ],
-          onPressed: (index) {
-            setState(() {
-              selectedGender = index == 0 ? 'male' : 'female';
-              widget.controller.text = selectedGender;
-            });
-          },
-          children: [
-            Icon(
-              Icons.male,
-              color: selectedGender == 'male' ? Colors.white : Colors.grey,
-            ),
-            Icon(Icons.female,
-                color: selectedGender == 'female' ? Colors.white : Colors.grey),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-// حقل اختيار تاريخ الميلاد
-class BirthDateField extends StatefulWidget {
-  final TextEditingController agecontroller;
-  BirthDateField({required this.agecontroller});
-  @override
-  _BirthDateFieldState createState() => _BirthDateFieldState();
-}
-
-class _BirthDateFieldState extends State<BirthDateField> {
-  late DateTime selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = DateTime.now();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        widget.agecontroller.text =
-            DateFormat('yyyy-MM-dd').format(selectedDate);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 8),
-        Column(
-          children: [
-            DefaultTextStyle(
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-                child: Text('اختر العمر')),
-            IconButton(
-              onPressed: () {
-                _selectDate(context);
-              },
-              icon: Icon(
-                Icons.calendar_today,
-                color: Colors.white,
-              ),
-              tooltip: 'اختر تاريخ الميلاد',
-            ),
-            DefaultTextStyle(
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-                child: Text(
-                    '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}')),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class Step1 extends StatefulWidget {
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
-  final TextEditingController chakepasswordController;
-  final TextEditingController phoneController;
-  final TextEditingController classController;
-  final TextEditingController adrissController;
-
-  const Step1(
-      {Key? key,
-      required this.emailController,
-      required this.passwordController,
-      required this.chakepasswordController,
-      required this.phoneController,
-      required this.classController,
-      required this.adrissController})
-      : super(key: key);
-
-  @override
-  _Step1State createState() => _Step1State();
-}
-
-class _Step1State extends State<Step1> {
-  bool passwordVisible = false;
-  String selectedSemester = 'عاشر علمي';
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      child: Column(
-        children: [
-          TextField(
-            controller: widget.emailController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'البريد الالكتروني',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon:
-                  Icon(Icons.email, color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: widget.phoneController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'رقم الهاتف',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon:
-                  Icon(Icons.phone, color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: widget.passwordController,
-            textAlign: TextAlign.right,
-            obscureText: passwordVisible,
-            decoration: InputDecoration(
-              hintText: 'ادخل كلمة المرور',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.password),
-              prefixIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
-                child: Icon(
-                  passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey.withOpacity(0.9),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: widget.chakepasswordController,
-            textAlign: TextAlign.right,
-            obscureText: !passwordVisible,
-            decoration: InputDecoration(
-              hintText: 'التأكد من كلمة المرور',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.password),
-              prefixIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
-                child: Icon(
-                  passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey.withOpacity(0.9),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          TextField(
-            controller: widget.adrissController,
-            textAlign: TextAlign.right,
-            decoration: InputDecoration(
-              hintText: 'عنوان المنزل',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.home_outlined,
-                  color: Colors.grey.withOpacity(0.9)),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 1),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: DropdownButton<String>(
-              isExpanded: true,
-              alignment: AlignmentDirectional.center,
-              value: selectedSemester,
-              hint: Text('اختر الفصل الدراسي'),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedSemester = newValue!;
-                });
-              },
-              items: <String>[
-                'عاشر علمي',
-                'حادي عشر علمي',
-                'بكلوريا علمي',
-                'عاشر أدبي',
-                'حادي عشر أدبي',
-                'بكلوريا أدبي',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Center(
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              }).toList(),
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'boutros',
-                fontSize: 20,
-              ),
-              dropdownColor: Colors.deepPurple,
-              elevation: 2,
-              icon: Icon(Icons.arrow_drop_down),
-              iconEnabledColor: Colors.white,
-              // isExpanded: true,
-              underline: Container(
-                height: 0,
-                color: Colors.black,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Step2 extends StatefulWidget {
-  const Step2({Key? key}) : super(key: key);
-
-  @override
-  State<Step2> createState() => _Step2State();
-}
-
-class _Step2State extends State<Step2> {
-  File? _profileImage;
-  File? _idImage;
-  File? _certificateImage;
-  String? _profileImageName;
-  String? _idImageName;
-  String? _certificateImageName;
-
-  Future<void> _pickImage(ImageSource source, String field) async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: source);
-    if (pickedImage != null) {
-      setState(() {
-        switch (field) {
-          case 'profile':
-            _profileImage = File(pickedImage.path);
-            _profileImageName = pickedImage.path.split('/').last;
-            break;
-          case 'id':
-            _idImage = File(pickedImage.path);
-            _idImageName = pickedImage.path.split('/').last;
-            break;
-          case 'certificate':
-            _certificateImage = File(pickedImage.path);
-            _certificateImageName = pickedImage.path.split('/').last;
-            break;
-        }
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => _pickImage(ImageSource.gallery, 'profile'),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('تحميل الصورة الشخصية'),
-                      if (_profileImageName != null)
-                        Text(
-                          _profileImageName!,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'boutros',
-                            fontSize: 16,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => _pickImage(ImageSource.gallery, 'id'),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('تحميل صورة الهوية الشخصية'),
-                      if (_idImageName != null)
-                        Text(
-                          _idImageName!,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'boutros',
-                            fontSize: 16,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () =>
-                      _pickImage(ImageSource.gallery, 'certificate'),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(' تحميل صورة الشهادة التي تسبق المرحلة الدراسية'),
-                      if (_certificateImageName != null)
-                        Text(
-                          _certificateImageName!,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'boutros',
-                            fontSize: 16,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

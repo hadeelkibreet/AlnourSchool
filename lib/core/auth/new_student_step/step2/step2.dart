@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Step2 extends StatefulWidget {
-  const Step2({Key? key}) : super(key: key);
+  final TextEditingController imageController;
+
+  const Step2({Key? key, required this.imageController}) : super(key: key);
 
   @override
   State<Step2> createState() => _Step2State();
@@ -27,6 +29,7 @@ class _Step2State extends State<Step2> {
           case 'profile':
             _profileImage = File(pickedImage.path);
             _profileImageName = pickedImage.path.split('/').last;
+            widget.imageController.text = _profileImageName!;
             break;
           case 'id':
             _idImage = File(pickedImage.path);

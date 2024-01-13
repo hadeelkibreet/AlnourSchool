@@ -1,9 +1,9 @@
 import 'package:alnour/core/auth/new_student.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/images.dart';
+import '../../services/authservies.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -164,7 +164,9 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: height * 0.07,
                   child: ElevatedButton(
                       onPressed: () async {
-                        _login(_emailController.text, _passwordController.text);
+                        loginWithEmailAndPassword(
+                            _emailController.text, _passwordController.text);
+                        //signOutInApp();
                       },
                       style: ButtonStyle(
                         backgroundColor:
@@ -202,8 +204,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const NewStudent()),
+                      MaterialPageRoute(builder: (context) => NewStudent()),
                     );
                   },
                   child: DefaultTextStyle(
@@ -220,22 +221,5 @@ class _LogInScreenState extends State<LogInScreen> {
         ],
       )),
     );
-  }
-
-  void _register(String email, String password) async {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
-  }
-
-  void _login(String email, String password) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      print('login sucss');
-    } on FirebaseAuthException catch (e) {
-      print('login faild $e');
-    } catch (e) {
-      print('Something else happend $e');
-    }
   }
 }

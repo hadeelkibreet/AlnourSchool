@@ -6,7 +6,7 @@ class Step1 extends ConsumerStatefulWidget {
   final TextEditingController passwordController;
   final TextEditingController chakepasswordController;
   final TextEditingController phoneController;
-  final TextEditingController classController;
+  final TextEditingController clsController;
   final TextEditingController adrissController;
 
   const Step1(
@@ -15,7 +15,7 @@ class Step1 extends ConsumerStatefulWidget {
       required this.passwordController,
       required this.chakepasswordController,
       required this.phoneController,
-      required this.classController,
+      required this.clsController,
       required this.adrissController})
       : super(key: key);
 
@@ -26,6 +26,8 @@ class Step1 extends ConsumerStatefulWidget {
 class _Step1State extends ConsumerState<Step1> {
   bool passwordVisible = false;
   String selectedSemester = 'عاشر علمي';
+  final GlobalKey _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,31 +108,35 @@ class _Step1State extends ConsumerState<Step1> {
           SizedBox(
             height: 15,
           ),
-          TextField(
-            controller: widget.chakepasswordController,
-            textAlign: TextAlign.right,
-            obscureText: !passwordVisible,
-            decoration: InputDecoration(
-              hintText: 'التأكد من كلمة المرور',
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
-              suffixIcon: Icon(Icons.password),
-              prefixIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
-                child: Icon(
-                  passwordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey.withOpacity(0.9),
+          Form(
+            key: _formkey,
+            child: TextField(
+              controller: widget.chakepasswordController,
+              onChanged: (value) {},
+              textAlign: TextAlign.right,
+              obscureText: !passwordVisible,
+              decoration: InputDecoration(
+                hintText: 'التأكد من كلمة المرور',
+                hintStyle: TextStyle(color: Colors.grey),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                suffixIcon: Icon(Icons.password),
+                prefixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
+                  },
+                  child: Icon(
+                    passwordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey.withOpacity(0.9),
+                  ),
                 ),
               ),
             ),
@@ -174,6 +180,8 @@ class _Step1State extends ConsumerState<Step1> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedSemester = newValue!;
+
+                  widget.clsController.text = selectedSemester;
                 });
               },
               items: <String>[
