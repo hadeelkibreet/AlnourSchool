@@ -6,8 +6,9 @@ import '../../../../../providers/select_date_provider.dart';
 
 // حقل اختيار تاريخ الميلاد
 class BirthDateField extends ConsumerStatefulWidget {
-  final TextEditingController agecontroller;
-  BirthDateField({required this.agecontroller});
+  BirthDateField({
+    Key? key,
+  });
   @override
   _BirthDateFieldState createState() => _BirthDateFieldState();
 }
@@ -34,15 +35,19 @@ class _BirthDateFieldState extends ConsumerState<BirthDateField> {
     if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
-        widget.agecontroller.text =
-            DateFormat('yyyy-MM-dd').format(selectedDate);
-        selectedDateToString = widget.agecontroller.text;
+
+        selectedDateToString = DateFormat('yyyy-MM-dd').format(selectedDate);
+        ref
+            .read(selectedDateProvider.notifier)
+            .update((state) => selectedDateToString);
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    late String selectedDate = ref.read(selectedDateProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,8 +71,7 @@ class _BirthDateFieldState extends ConsumerState<BirthDateField> {
             DefaultTextStyle(
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-                child: Text(
-                    '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}')),
+                child: Text('$selectedDate')),
           ],
         ),
       ],

@@ -164,9 +164,9 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: height * 0.07,
                   child: ElevatedButton(
                       onPressed: () async {
-                        loginWithEmailAndPassword(
-                            _emailController.text, _passwordController.text);
-                        //signOutInApp();
+                        // loginWithEmailAndPassword(
+                        //   _emailController.text, _passwordController.text);
+                        signOutInApp();
                       },
                       style: ButtonStyle(
                         backgroundColor:

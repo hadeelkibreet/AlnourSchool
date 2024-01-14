@@ -8,16 +8,12 @@ class Step0 extends ConsumerWidget {
   final TextEditingController fathernameController;
   final TextEditingController mathernameController;
   final TextEditingController lastnameController;
-  final TextEditingController genderController;
-  final TextEditingController ageController;
 
   const Step0({
     Key? key,
     required this.nameController,
     required this.fathernameController,
     required this.mathernameController,
-    required this.genderController,
-    required this.ageController,
     required this.lastnameController,
   }) : super(key: key);
 
@@ -115,14 +111,10 @@ class Step0 extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               // إضافة حقل اختيار تاريخ الميلاد
-              BirthDateField(
-                agecontroller: ageController,
-              ),
+              BirthDateField(),
               // SizedBox(width: 15,),
               // إضافة حقل اختيار الجنس
-              GenderSelectionField(
-                controller: genderController,
-              ),
+              GenderSelectionField(),
             ],
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:alnour/core/auth/new_student_step/step1/widget/drop_down_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,7 +7,6 @@ class Step1 extends ConsumerStatefulWidget {
   final TextEditingController passwordController;
   final TextEditingController chakepasswordController;
   final TextEditingController phoneController;
-  final TextEditingController clsController;
   final TextEditingController adrissController;
 
   const Step1(
@@ -15,7 +15,6 @@ class Step1 extends ConsumerStatefulWidget {
       required this.passwordController,
       required this.chakepasswordController,
       required this.phoneController,
-      required this.clsController,
       required this.adrissController})
       : super(key: key);
 
@@ -25,7 +24,6 @@ class Step1 extends ConsumerStatefulWidget {
 
 class _Step1State extends ConsumerState<Step1> {
   bool passwordVisible = false;
-  String selectedSemester = 'عاشر علمي';
   final GlobalKey _formkey = GlobalKey<FormState>();
 
   @override
@@ -165,60 +163,7 @@ class _Step1State extends ConsumerState<Step1> {
           SizedBox(
             height: 15,
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 1),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: DropdownButton<String>(
-              isExpanded: true,
-              alignment: AlignmentDirectional.center,
-              value: selectedSemester,
-              hint: Text('اختر الفصل الدراسي'),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedSemester = newValue!;
-
-                  widget.clsController.text = selectedSemester;
-                });
-              },
-              items: <String>[
-                'عاشر علمي',
-                'حادي عشر علمي',
-                'بكلوريا علمي',
-                'عاشر أدبي',
-                'حادي عشر أدبي',
-                'بكلوريا أدبي',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Center(
-                    child: Text(
-                      value,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                );
-              }).toList(),
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'boutros',
-                fontSize: 20,
-              ),
-              dropdownColor: Colors.deepPurple,
-              elevation: 2,
-              icon: Icon(Icons.arrow_drop_down),
-              iconEnabledColor: Colors.white,
-              // isExpanded: true,
-              underline: Container(
-                height: 0,
-                color: Colors.black,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
+          DropDownCls(),
         ],
       ),
     );

@@ -2,12 +2,15 @@ import 'package:alnour/core/auth/new_student_step/step0/step0.dart';
 import 'package:alnour/core/auth/new_student_step/step1/step1.dart';
 import 'package:alnour/core/auth/new_student_step/step2/step2.dart';
 import 'package:alnour/model/student_model.dart';
+import 'package:alnour/providers/select_cls_provider.dart';
+import 'package:alnour/providers/select_date_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/circle.dart';
 import '../../constants/constants/images.dart';
+import '../../providers/select_gender_provider.dart';
 import '../../providers/services_provider.dart';
 
 class NewStudent extends ConsumerStatefulWidget {
@@ -27,18 +30,15 @@ class _NewStudentState extends ConsumerState<NewStudent> {
   final TextEditingController fathernameController = TextEditingController();
   final TextEditingController mathernameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController chakepasswordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController clsController = TextEditingController();
   final TextEditingController adrissController = TextEditingController();
-  bool AcceptController = true;
-  String hadil = 'hadil';
+  final bool AcceptController = false;
+
   int _currentPageIndex = 0;
   List<String> _stepTitles = ['w', 'S', 'p'];
   void _nextPage() {
@@ -49,10 +49,13 @@ class _NewStudentState extends ConsumerState<NewStudent> {
   }
 
   void _finalPage() {
+    final finalage = ref.read(selectedDateProvider);
+    final finalgender = ref.read(SelectGenderProvider);
+    final finalCls = ref.read(ClsProvider);
     ref.read(servieceProvider).addstudent(StudentModel(
-        age: ageController.text,
+        age: finalage.toString(),
         adriss: adrissController.text,
-        cls: clsController.text,
+        cls: finalCls.toString(),
         email: emailController.text,
         fathername: fathernameController.text,
         image: imageController.text,
@@ -62,7 +65,7 @@ class _NewStudentState extends ConsumerState<NewStudent> {
         password: passwordController.text,
         Accept: AcceptController,
         phone: phoneController.hashCode,
-        gender: genderController.text));
+        gender: finalgender.toString()));
   }
 
   void _previousPage() {
@@ -189,8 +192,6 @@ class _NewStudentState extends ConsumerState<NewStudent> {
                                             fathernameController,
                                         mathernameController:
                                             mathernameController,
-                                        genderController: genderController,
-                                        ageController: ageController,
                                         lastnameController:
                                             lastnameController)),
                                 Center(
@@ -200,7 +201,6 @@ class _NewStudentState extends ConsumerState<NewStudent> {
                                         chakepasswordController:
                                             chakepasswordController,
                                         phoneController: phoneController,
-                                        clsController: clsController,
                                         adrissController: adrissController)),
                                 Center(
                                     child: Step2(
@@ -235,7 +235,9 @@ class _NewStudentState extends ConsumerState<NewStudent> {
                     _currentPageIndex == 2 ? _finalPage() : _nextPage();
                   }
                 },
-                child: Icon(Icons.arrow_forward_ios),
+                child: _currentPageIndex == 2
+                    ? Icon(Icons.add)
+                    : Icon(Icons.arrow_forward_ios),
               ),
             ],
           )),

@@ -5,10 +5,8 @@ import '../../../../../providers/select_gender_provider.dart';
 
 // حقل اختيار الجنس
 class GenderSelectionField extends ConsumerStatefulWidget {
-  final TextEditingController controller;
-
   GenderSelectionField({
-    required this.controller,
+    Key? key,
   });
 
   @override
@@ -18,7 +16,7 @@ class GenderSelectionField extends ConsumerStatefulWidget {
 class _GenderSelectionFieldState extends ConsumerState<GenderSelectionField> {
   @override
   Widget build(BuildContext context) {
-    final selectgender = ref.read(SelectGenderProvider);
+    String selectgender = ref.watch(SelectGenderProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,8 +34,10 @@ class _GenderSelectionFieldState extends ConsumerState<GenderSelectionField> {
           ],
           onPressed: (index) {
             setState(() {
-              selectgender == 'male' ? 'male' : 'female';
-              widget.controller.text = selectgender;
+              selectgender = index == 0 ? 'male' : 'female';
+              ref
+                  .read(SelectGenderProvider.notifier)
+                  .update((state) => selectgender);
             });
           },
           children: [
