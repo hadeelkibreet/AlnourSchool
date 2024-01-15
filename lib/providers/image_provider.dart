@@ -1,14 +1,13 @@
-import 'dart:io';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:path/path.dart';
+final ProfileImgProvider = StateProvider((ref) {
+  return '';
+});
 
-final firebaseStorageRef = firebase_storage.FirebaseStorage.instance.ref();
+final IdImgProvider = StateProvider((ref) {
+  return '';
+});
 
-void uploadFileToFirebaseStorage(String filePath) async {
-  File file = File(filePath);
-  String fileName = basename(file.path);
-  firebase_storage.Reference storageRef = firebaseStorageRef.child(fileName);
-
-  await storageRef.putFile(file);
-}
+final CertificateImgProvider = StateProvider((ref) {
+  return '';
+});

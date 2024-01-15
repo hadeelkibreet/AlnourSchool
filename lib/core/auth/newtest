@@ -1676,5 +1676,276 @@ class Step2 extends StatelessWidget {
     }
 }
 
+--------------------------------------------image
+   // // Row(
+            // //   children: [
+            // //     Expanded(
+            // //       child: ElevatedButton(
+            // //         onPressed: () {
+            // //           pickFile('profile');
+            // //         },
+            // //         child: Column(
+            // //           crossAxisAlignment: CrossAxisAlignment.end,
+            // //           children: [
+            // //             Text('تحميل الصورة الشخصية'),
+            // //             //Text(),
+            // //             if (profileFileName != null)
+            // //               Text(
+            // //                 '$profileFileName',
+            // //                 style: TextStyle(
+            // //                   color: Colors.black,
+            // //                   fontFamily: 'boutros',
+            // //                   fontSize: 16,
+            // //                 ),
+            // //                 overflow: TextOverflow.ellipsis,
+            // //                 maxLines: 1,
+            // //               ),
+            // //           ],
+            // //         ),
+            // //       ),
+            // //     ),
+            // //   ],
+            // // ),
+            // // SizedBox(
+            // //   height: 15,
+            // // ),
+            // SizedBox(
+            //   height: 25,
+            // ),
+            // Directionality(
+            //   textDirection: TextDirection.rtl,
+            //   child: TextFormField(
+            //     onTap: () {
+            //       if (isTextFieldEnabled) {
+            //         pickFile('profile');
+            //       }
+            //     },
+            //     initialValue: profileFileName,
+            //     readOnly: true,
+            //     textAlign: TextAlign.center,
+            //     maxLines: 1,
+            //     decoration: InputDecoration(
+            //       alignLabelWithHint: true,
+            //       filled: true,
+            //       fillColor: Colors.deepPurpleAccent,
+            //       enabledBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       labelText: profileFileName == null
+            //           ? 'تحميل الصورة الشخصية'
+            //           : profileFileName,
+            //       labelStyle: TextStyle(color: Colors.white),
+            //     ),
+            //   ),
+            // ),
+            // // Directionality(
+            // //   textDirection: TextDirection.rtl,
+            // //   child: GestureDetector(
+            // //     onTap: () {
+            // //       if (isTextFieldEnabled) {
+            // //         pickFile('profile');
+            // //       }
+            // //     },
+            // //     child: InputDecorator(
+            // //       decoration: InputDecoration(
+            // //         alignLabelWithHint: true,
+            // //         labelText: 'تحميل الصورة الشخصية',
+            // //         focusedBorder: InputBorder.none,
+            // //         labelStyle: TextStyle(
+            // //             color: Colors.white, fontWeight: FontWeight.w900),
+            // //         filled: true,
+            // //         fillColor: Colors.deepPurpleAccent,
+            // //         border: OutlineInputBorder(
+            // //           borderRadius: BorderRadius.circular(30.0),
+            // //           borderSide: BorderSide.none,
+            // //         ),
+            // //         contentPadding:
+            // //             EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            // //       ),
+            // //       child: Text(
+            // //         profileFileName ??
+            // //             '', // Display the value of certificateFileName
+            // //         style: TextStyle(
+            // //           color: Colors.black,
+            // //           fontSize: 16.0,
+            // //         ),
+            // //       ),
+            // //     ),
+            // //   ),
+            // // ),
+            // // Row(
+            // //   children: [
+            // //     Expanded(
+            // //       child: ElevatedButton(
+            // //         onPressed: () => pickFile('id'),
+            // //         child: Column(
+            // //           crossAxisAlignment: CrossAxisAlignment.end,
+            // //           children: [
+            // //             Text('تحميل صورة الهوية الشخصية'),
+            // //             if (idFileName != null)
+            // //               Text(
+            // //                 '$idFileName',
+            // //                 style: TextStyle(
+            // //                   color: Colors.black,
+            // //                   fontFamily: 'boutros',
+            // //                   fontSize: 16,
+            // //                 ),
+            // //                 overflow: TextOverflow.ellipsis,
+            // //                 maxLines: 1,
+            // //               ),
+            // //           ],
+            // //         ),
+            // //       ),
+            // //     ),
+            // //   ],
+            // // ),
+            // SizedBox(
+            //   height: 25,
+            // ),
+            //
+            // Directionality(
+            //   textDirection: TextDirection.rtl,
+            //   child: TextFormField(
+            //     onTap: () {
+            //       if (isTextFieldEnabled) {
+            //         pickFile('id');
+            //       }
+            //     },
+            //     initialValue: idFileName,
+            //     readOnly: true,
+            //     textAlign: TextAlign.center,
+            //     maxLines: 1,
+            //     decoration: InputDecoration(
+            //       alignLabelWithHint: true,
+            //       filled: true,
+            //       fillColor: Colors.deepPurpleAccent,
+            //       enabledBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       labelText: idFileName == null
+            //           ? 'تحميل صورة الهوية الشخصية'
+            //           : idFileName,
+            //       labelStyle: TextStyle(color: Colors.white),
+            //     ),
+            //   ),
+            // ),
+            // // Row(
+            // //   children: [
+            // //     Expanded(
+            // //       child: ElevatedButton(
+            // //         onPressed: () => pickFile('certificate'),
+            // //         child: Column(
+            // //           crossAxisAlignment: CrossAxisAlignment.end,
+            // //           children: [
+            // //             Text(' تحميل صورة الشهادة التي تسبق المرحلة الدراسية'),
+            // //             if (certificateFileName != null)
+            // //               Text(
+            // //                 '$certificateFileName',
+            // //                 style: TextStyle(
+            // //                   color: Colors.black,
+            // //                   fontFamily: 'boutros',
+            // //                   fontSize: 16,
+            // //                 ),
+            // //                 overflow: TextOverflow.ellipsis,
+            // //                 maxLines: 1,
+            // //               ),
+            // //           ],
+            // //         ),
+            // //       ),
+            // //     ),
+            // //   ],
+            // // ),
+            // SizedBox(
+            //   height: 25,
+            // ),
+            //
+            // Directionality(
+            //   textDirection: TextDirection.rtl,
+            //   child: TextFormField(
+            //     onTap: () {
+            //       if (isTextFieldEnabled) {
+            //         pickFile('certificate');
+            //       }
+            //     },
+            //     initialValue: certificateFileName,
+            //     readOnly: true,
+            //     textAlign: TextAlign.center,
+            //     maxLines: 1,
+            //     decoration: InputDecoration(
+            //       alignLabelWithHint: true,
+            //       filled: true,
+            //       fillColor: Colors.deepPurpleAccent,
+            //       enabledBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       border: OutlineInputBorder(
+            //         borderRadius: BorderRadius.circular(30.0),
+            //         borderSide: BorderSide.none,
+            //       ),
+            //       labelText: certificateFileName == null
+            //           ? 'تحميل صورة الشهادة التي تسبق المرحلة المختارة'
+            //           : certificateFileName,
+            //       labelStyle: TextStyle(color: Colors.white),
+            //     ),
+            //   ),
+            // ),
 
+            //
+            // Directionality(
+            //   textDirection: TextDirection.rtl,
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       if (isTextFieldEnabled) {
+            //         pickFile('certificate');
+            //       }
+            //     },
+            //     child: InputDecorator(
+            //       decoration: InputDecoration(
+            //         labelText: 'تحميل صورة الشهادة التي تسبق المرحلة الدراسية',
+            //         labelStyle: TextStyle(
+            //             color: Colors.white, fontWeight: FontWeight.w900),
+            //         filled: true,
+            //         fillColor: Colors.deepPurpleAccent,
+            //         border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(30.0),
+            //           borderSide: BorderSide.none,
+            //         ),
+            //         contentPadding:
+            //             EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            //       ),
+            //       child: Text(
+            //         certificateFileName ??
+            //             '', // Display the value of certificateFileName
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(
+            //           color: Colors.white,
+            //           fontSize: 16.0,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 

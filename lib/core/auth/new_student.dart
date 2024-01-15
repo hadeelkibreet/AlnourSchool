@@ -1,15 +1,18 @@
 import 'package:alnour/core/auth/new_student_step/step0/step0.dart';
 import 'package:alnour/core/auth/new_student_step/step1/step1.dart';
 import 'package:alnour/core/auth/new_student_step/step2/step2.dart';
+import 'package:alnour/enums/student_enum.dart';
 import 'package:alnour/model/student_model.dart';
 import 'package:alnour/providers/select_cls_provider.dart';
 import 'package:alnour/providers/select_date_provider.dart';
+import 'package:alnour/services/authservies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/circle.dart';
 import '../../constants/constants/images.dart';
+import '../../providers/image_provider.dart';
 import '../../providers/select_gender_provider.dart';
 import '../../providers/services_provider.dart';
 
@@ -37,7 +40,6 @@ class _NewStudentState extends ConsumerState<NewStudent> {
   final TextEditingController chakepasswordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController adrissController = TextEditingController();
-  final bool AcceptController = false;
 
   int _currentPageIndex = 0;
   List<String> _stepTitles = ['w', 'S', 'p'];
@@ -48,24 +50,34 @@ class _NewStudentState extends ConsumerState<NewStudent> {
     }
   }
 
-  void _finalPage() {
+  void _finalPage() async {
+    //registerWithEmailAndPassword(emailController.text,passwordController.text);
+    final String? uid = await registerWithEmailAndPassword(
+        emailController.text, passwordController.text);
     final finalage = ref.read(selectedDateProvider);
     final finalgender = ref.read(SelectGenderProvider);
     final finalCls = ref.read(ClsProvider);
+    final finalprofileimg = ref.read(ProfileImgProvider);
+    final finalidimg = ref.read(IdImgProvider);
+    final finalcertificateimg = ref.read(CertificateImgProvider);
     ref.read(servieceProvider).addstudent(StudentModel(
-        age: finalage.toString(),
-        adriss: adrissController.text,
-        cls: finalCls.toString(),
-        email: emailController.text,
-        fathername: fathernameController.text,
-        image: imageController.text,
-        lastname: lastnameController.text,
-        mathername: mathernameController.text,
-        name: nameController.text,
-        password: passwordController.text,
-        Accept: AcceptController,
-        phone: phoneController.hashCode,
-        gender: finalgender.toString()));
+          uid: uid.toString(),
+          age: finalage.toString(),
+          adriss: adrissController.text,
+          cls: finalCls.toString(),
+          email: emailController.text,
+          fathername: fathernameController.text,
+          lastname: lastnameController.text,
+          mathername: mathernameController.text,
+          name: nameController.text,
+          password: passwordController.text,
+          Accept: StudentStatus.pending,
+          phone: phoneController.text,
+          gender: finalgender.toString(),
+          profileimg: finalprofileimg,
+          idimg: finalidimg,
+          certificateimg: finalcertificateimg,
+        ));
   }
 
   void _previousPage() {
@@ -202,10 +214,7 @@ class _NewStudentState extends ConsumerState<NewStudent> {
                                             chakepasswordController,
                                         phoneController: phoneController,
                                         adrissController: adrissController)),
-                                Center(
-                                    child: Step2(
-                                  imageController: imageController,
-                                )),
+                                Center(child: Step2()),
                               ],
                             ),
                           ),

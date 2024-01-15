@@ -7,6 +7,7 @@ class StudentService {
 
   //create
   void addstudent(StudentModel model) {
-    studentCollection.add(model.toMap());
+    studentCollection.doc(model.uid).set(model.toMap());
+    // studentCollection.add(model.toMap());
   }
 }

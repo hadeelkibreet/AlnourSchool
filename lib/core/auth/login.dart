@@ -1,9 +1,9 @@
 import 'package:alnour/core/auth/new_student.dart';
+import 'package:alnour/services/authservies.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/images.dart';
-import '../../services/authservies.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
