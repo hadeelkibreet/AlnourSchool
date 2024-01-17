@@ -1,11 +1,8 @@
-import 'package:alnour/core/settings_page/abute_us.dart';
+import 'package:alnour/core/student_profile/student_profile.dart';
 import 'package:flutter/material.dart';
+
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/images.dart';
-import '../auth/login.dart';
-import '../auth/new_student.dart';
-import '../settings_page/connect_us.dart';
-import '../settings_page/location.dart';
 
 class Splashpage extends StatefulWidget {
   @override
@@ -27,33 +24,28 @@ class _SplashpageState extends State<Splashpage>
 
     _scaleAnimation = Tween<double>(
       begin: 0.1, // Specify the initial scale value here
-      end: 1.0, // Specify the final scale value here (in this case, back to the original size)
+      end:
+          1.0, // Specify the final scale value here (in this case, back to the original size)
     ).animate(_controller);
 
-    _controller.forward()
-        .whenComplete(() {
+    _controller.forward().whenComplete(() {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const LogInScreen()),
+        MaterialPageRoute(builder: (context) => const StudentProfile()),
       );
-    }
-    );
+    });
   }
-
-
-
 
   @override
   void dispose() {
     _controller.dispose();
 
     super.dispose();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Stack(
         children: [
           const BackGroundImage(),
@@ -67,7 +59,6 @@ class _SplashpageState extends State<Splashpage>
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   ScaleTransition(
                     scale: _scaleAnimation,
                     child: Image.asset(
@@ -78,18 +69,18 @@ class _SplashpageState extends State<Splashpage>
                   const SizedBox(height: 10),
                   Image.asset(
                     ImageAssets.book,
-                   // height: 200,
+                    // height: 200,
                     width: 200,
                   ),
                 ],
               ),
-
             ],
           ),
         ],
       ),
     );
   }
+
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);

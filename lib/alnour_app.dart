@@ -1,5 +1,4 @@
-import 'package:alnour/core/auth/loadingscreen.dart';
-import 'package:alnour/core/auth/login.dart';
+import 'package:alnour/core/student_profile/student_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +14,8 @@ class AlnourApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: FirebaseAuth.instance.currentUser == null
-          ? const LogInScreen()
-          : const LoadingScreen(),
+          ? StudentProfile()
+          : StudentProfile(),
     );
   }
 }

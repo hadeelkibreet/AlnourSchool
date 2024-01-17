@@ -2,6 +2,7 @@ import 'package:alnour/core/auth/new_student_step/step0/step0.dart';
 import 'package:alnour/core/auth/new_student_step/step1/step1.dart';
 import 'package:alnour/core/auth/new_student_step/step2/step2.dart';
 import 'package:alnour/enums/student_enum.dart';
+import 'package:alnour/model/pending_model.dart';
 import 'package:alnour/model/student_model.dart';
 import 'package:alnour/providers/select_cls_provider.dart';
 import 'package:alnour/providers/select_date_provider.dart';
@@ -51,7 +52,6 @@ class _NewStudentState extends ConsumerState<NewStudent> {
   }
 
   void _finalPage() async {
-    //registerWithEmailAndPassword(emailController.text,passwordController.text);
     final String? uid = await registerWithEmailAndPassword(
         emailController.text, passwordController.text);
     final finalage = ref.read(selectedDateProvider);
@@ -78,6 +78,7 @@ class _NewStudentState extends ConsumerState<NewStudent> {
           idimg: finalidimg,
           certificateimg: finalcertificateimg,
         ));
+    ref.read(servieceProvider).addpending(PendingModel(uid: uid.toString()));
   }
 
   void _previousPage() {
