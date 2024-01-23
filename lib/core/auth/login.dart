@@ -1,18 +1,20 @@
 import 'package:alnour/core/auth/new_student.dart';
-import 'package:alnour/services/authservies.dart';
+import 'package:alnour/core/student_profile/student_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/images.dart';
+import '../../services/authservies.dart';
 
-class LogInScreen extends StatefulWidget {
+class LogInScreen extends ConsumerStatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
 
   @override
-  State<LogInScreen> createState() => _LogInScreenState();
+  ConsumerState<LogInScreen> createState() => _LogInScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen> {
+class _LogInScreenState extends ConsumerState<LogInScreen> {
   final GlobalKey _formkey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -164,8 +166,18 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: height * 0.07,
                   child: ElevatedButton(
                       onPressed: () async {
-                        loginWithEmailAndPassword(
+                        final String? uid = await loginWithEmailAndPassword(
                             _emailController.text, _passwordController.text);
+
+                        if (uid != null) {
+                          print(uid);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StudentProfile(uid: uid),
+                            ),
+                          );
+                        }
                         //signOutInApp();
                       },
                       style: ButtonStyle(

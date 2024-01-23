@@ -7,17 +7,41 @@ Future<String?> registerWithEmailAndPassword(
   return userCredential.user?.uid;
 }
 
-void loginWithEmailAndPassword(String email, String password) async {
+Future<String?> loginWithEmailAndPassword(String email, String password) async {
   try {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
-    print('login sucss');
+    final User? user = userCredential.user;
+    final uid = user?.uid;
+
+    print('Login success');
+    return uid;
   } on FirebaseAuthException catch (e) {
-    print('login faild $e');
+    print('Login failed: $e');
+    return null;
   } catch (e) {
-    print('Something else happend $e');
+    print('Something else happened: $e');
+    return null;
   }
 }
+// void loginWithEmailAndPassword(String email, String password) async {
+//   try {
+//     UserCredential userCredential = await FirebaseAuth.instance
+//         .signInWithEmailAndPassword(email: email, password: password);
+//     final User? user = userCredential.user;
+//     final providerContainer = ProviderContainer();
+//     providerContainer
+//         .read(UidProvider.notifier)
+//         .update((state) => user?.uid ?? '');
+//
+//     //print(uidProvider);
+//     print('login sucss');
+//   } on FirebaseAuthException catch (e) {
+//     print('login faild $e');
+//   } catch (e) {
+//     print('Something else happend $e');
+//   }
+// }
 
 void signOutInApp() async {
   await FirebaseAuth.instance.signOut();

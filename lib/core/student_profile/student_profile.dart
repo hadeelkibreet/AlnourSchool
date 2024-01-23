@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:alnour/constants/constants/backgroundimage.dart';
 import 'package:alnour/constants/constants/images.dart';
 import 'package:alnour/core/auth/login.dart';
@@ -5,21 +7,64 @@ import 'package:alnour/core/settings_page/abute_us.dart';
 import 'package:alnour/core/settings_page/connect_us.dart';
 import 'package:alnour/core/settings_page/location.dart';
 import 'package:alnour/services/authservies.dart';
+import 'package:alnour/services/student_service.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
 
-class StudentProfile extends StatefulWidget {
-  const StudentProfile({Key? key}) : super(key: key);
+class StudentProfile extends ConsumerStatefulWidget {
+  final String uid;
+
+  const StudentProfile({Key? key, required this.uid}) : super(key: key);
 
   @override
-  State<StudentProfile> createState() => _StudentProfileState();
+  ConsumerState<StudentProfile> createState() => _StudentProfileState();
 }
 
-class _StudentProfileState extends State<StudentProfile> {
+class _StudentProfileState extends ConsumerState<StudentProfile> {
+  final String filename = 'photo.jpg'; // Replace with your filename
+
+  Future<void> findPhotoPath(String filename) async {
+    final ListResult result = await FirebaseStorage.instance.ref().listAll();
+    for (final Reference ref in result.items) {
+      if (ref.name == filename) {
+        final String fullPath = ref.fullPath;
+        print('Full path of $filename: $fullPath');
+        break;
+      }
+    }
+  }
+
+  Future<void> uploadPhotoToFirebase(File photoFile) async {
+    try {
+      String fileName = basename(photoFile.path);
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child('profile/$fileName');
+      UploadTask uploadTask = storageReference.putFile(photoFile);
+      await uploadTask.whenComplete(() => print('Photo uploaded'));
+    } catch (error) {
+      print('Error uploading photo: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    final userinfo = ref.watch(fetchStreamProvider);
+    final String filename =
+        userinfo.value!.profileimg.toString(); // Replace with your filename
+
+    // final uid = ref.read(UidProvider);
+    //final StudentModel student;
     int requst = 1;
+    int indexdata = 0;
+    // final studentData =
+    //     ref.watch(servieceProvider).studentProvider(UidProvider.toString());
+    // final studentModel = ref.watch(servieceProvider(widget.uid));
+    // final Userall = ref.watch(servieceProvider).studentProvider(widget.uid);
+
     return SafeArea(
       child: Scaffold(
         drawer: Drawer(
@@ -28,39 +73,34 @@ class _StudentProfileState extends State<StudentProfile> {
             padding: EdgeInsets.zero,
             children: [
               UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: const Color(0x7E41007F)),
-                accountName: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      "هديل كبريت",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'boutros',
+                  decoration: BoxDecoration(color: const Color(0x7E41007F)),
+                  accountName: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        userinfo.value!.name.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'boutros',
+                        ),
                       ),
                     ),
                   ),
-                ),
-                accountEmail: Align(
-                  alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      "hadil@gmail.com",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'boutros',
+                  accountEmail: Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        userinfo.value!.email.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'boutros',
+                        ),
                       ),
                     ),
                   ),
-                ),
-                currentAccountPicture: Image.asset(
-                  ImageAssets.fulllogo,
-                  height: height * 0.8,
-                  width: width * 0.9,
-                ),
-              ),
+                  currentAccountPicture: Image.network('src')),
               ListTile(
                 trailing: Icon(
                   Icons.contact_support_outlined,
@@ -247,15 +287,12 @@ class _StudentProfileState extends State<StudentProfile> {
                           fontSize: 20,
                         ),
                       ),
-                      // Text(
-                      //   'طلب التسجيل قيد المعالجة',
-                      //   style: TextStyle(
-                      //     fontFamily: 'boutros',
-                      //     color: Color(0xF441007F),
-                      //     fontWeight: FontWeight.w900,
-                      //     fontSize: 20,
-                      //   ),
-                      // ),
+                      ElevatedButton(
+                          onPressed: () {
+                            print(
+                                'https://console.firebase.google.com/project/alnour-e081c/storage/alnour-e081c.appspot.com/files/~2Fprofile/magazine-unlock-01-2.3.2024011501-_61CC7.jpg');
+                          },
+                          child: Text('data')),
                     ],
                   ),
                 ),

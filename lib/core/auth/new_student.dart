@@ -16,6 +16,7 @@ import '../../constants/constants/images.dart';
 import '../../providers/image_provider.dart';
 import '../../providers/select_gender_provider.dart';
 import '../../providers/services_provider.dart';
+import '../../providers/uid_provider.dart';
 
 class NewStudent extends ConsumerStatefulWidget {
   const NewStudent({Key? key}) : super(key: key);
@@ -54,6 +55,8 @@ class _NewStudentState extends ConsumerState<NewStudent> {
   void _finalPage() async {
     final String? uid = await registerWithEmailAndPassword(
         emailController.text, passwordController.text);
+
+    ref.read(UidProvider.notifier).update((state) => uid.toString());
     final finalage = ref.read(selectedDateProvider);
     final finalgender = ref.read(SelectGenderProvider);
     final finalCls = ref.read(ClsProvider);
