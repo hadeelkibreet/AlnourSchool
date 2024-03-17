@@ -1,17 +1,19 @@
 import 'dart:io';
 
 import 'package:alnour/constants/constants/backgroundimage.dart';
-import 'package:alnour/constants/constants/images.dart';
-import 'package:alnour/core/auth/login.dart';
-import 'package:alnour/core/settings_page/abute_us.dart';
-import 'package:alnour/core/settings_page/connect_us.dart';
-import 'package:alnour/core/settings_page/location.dart';
-import 'package:alnour/services/authservies.dart';
-import 'package:alnour/services/student_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
+
+import '../../constants/constants/images.dart';
+import '../../model/student_model.dart';
+import '../../services/authservies.dart';
+import '../../services/student_service.dart';
+import '../auth/login.dart';
+import '../settings_page/abute_us.dart';
+import '../settings_page/connect_us.dart';
+import '../settings_page/location.dart';
 
 class StudentProfile extends ConsumerStatefulWidget {
   final String uid;
@@ -53,11 +55,11 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     final userinfo = ref.watch(fetchStreamProvider);
-    final String filename =
-        userinfo.value!.profileimg.toString(); // Replace with your filename
+    // final String filename =
+    //   userinfo.value!.profileimg.toString(); // Replace with your filename
 
     // final uid = ref.read(UidProvider);
-    //final StudentModel student;
+    final StudentModel student;
     int requst = 1;
     int indexdata = 0;
     // final studentData =
@@ -289,8 +291,7 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            print(
-                                'https://console.firebase.google.com/project/alnour-e081c/storage/alnour-e081c.appspot.com/files/~2Fprofile/magazine-unlock-01-2.3.2024011501-_61CC7.jpg');
+                            print(userinfo.value!.email.toString());
                           },
                           child: Text('data')),
                     ],

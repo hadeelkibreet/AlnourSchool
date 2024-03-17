@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/pending_model.dart';
 import '../model/student_model.dart';
+import '../providers/uid_provider.dart';
 
 class StudentService {
   final studentCollection = FirebaseFirestore.instance.collection('newstudent');
@@ -51,12 +52,66 @@ class StudentService {
   // });
 }
 
+// استدعاء معلومات الطالب باستخدام UID
+Future<void> fetchStudentInformation(String uid) async {
+  try {
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('newstudent')
+        .doc(uid)
+        .get();
+
+    if (snapshot.exists) {
+      StudentModel student = StudentModel.fromSnapshot(snapshot);
+
+      // استخدم معلومات الطالب هنا
+      print('اسم الطالب: ${student.name}');
+      print('البريد الإلكتروني: ${student.email}');
+      // وهكذا...
+    } else {
+      print('الطالب غير موجود');
+    }
+  } catch (e) {
+    print('حدث خطأ أثناء استدعاء المعلومات: $e');
+  }
+}
+
 final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
-  final getData = FirebaseFirestore.instance
-      .collection('newstudent')
-      .snapshots()
-      .map((event) => event.docs
-          .map((snapshot) => StudentModel.fromSnapshot(snapshot))
-          .first);
-  yield* getData;
+  // final db = FirebaseFirestore.instance;
+  // final uid = ref.read(UidProvider);
+  // final docRef = db.collection("newstudent").doc(uid);
+  // docRef.get().then(
+  //   (DocumentSnapshot doc) {
+  //     final data = doc.data() as Map<String, dynamic>;
+  //     print(data.toString());
+  //   },
+  //   onError: (e) => print("Error getting document: $e"),
+  // );
+  final db = FirebaseFirestore.instance;
+  final uid = ref.read(UidProvider);
+  final docRef = db.collection("newstudent").doc(uid);
+  final snapshot = await docRef.get();
+  if (snapshot.exists) {
+    final data = snapshot.data() as Map<String, dynamic>;
+    final student = StudentModel.fromMap(data);
+    print(data.toString());
+    print('------------------------------------------------------------------');
+    print(student.toString());
+    yield student;
+  } else {
+    onError:
+    (e) => print("Error getting document: $e");
+  }
 });
+
+//////////////////////////////////////////////////////////////////////////////////
+
+// final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
+//   final getData = FirebaseFirestore.instance
+//       .collection('newstudent')
+//       .snapshots()
+//       .map((event) => event.docs
+//           .map((snapshot) => StudentModel.fromSnapshot(snapshot))
+//           .first);
+//   yield* getData;
+// });

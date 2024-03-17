@@ -1,11 +1,12 @@
 import 'package:alnour/core/auth/new_student.dart';
-import 'package:alnour/core/student_profile/student_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/images.dart';
+import '../../providers/uid_provider.dart';
 import '../../services/authservies.dart';
+import '../student_profile/student_profile.dart';
 
 class LogInScreen extends ConsumerStatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -168,17 +169,23 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       onPressed: () async {
                         final String? uid = await loginWithEmailAndPassword(
                             _emailController.text, _passwordController.text);
-
+                        ref
+                            .read(UidProvider.notifier)
+                            .update((state) => uid.toString());
                         if (uid != null) {
                           print(uid);
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => StudentProfile(uid: uid),
+                              builder: (context) =>
+                                  //AbuteUs(uid: uid),
+                                  StudentProfile(uid: uid),
                             ),
                           );
+                        } else {
+                          print('no uiddddddddd');
                         }
-                        //signOutInApp();
+                        // signOutInApp();
                       },
                       style: ButtonStyle(
                         backgroundColor:
@@ -208,7 +215,12 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                       fontFamily: 'boutros',
                       fontSize: 12,
                     ),
-                    child: Text('هل نسيت كلمة المرور؟')),
+                    child: TextButton(
+                      onPressed: () {
+                        signOutInApp();
+                      },
+                      child: Text('هل نسيت كلمة المرور؟'),
+                    )),
                 SizedBox(
                   height: 25,
                 ),

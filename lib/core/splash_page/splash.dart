@@ -1,4 +1,4 @@
-import 'package:alnour/core/student_profile/student_profile.dart';
+import 'package:alnour/core/auth/login.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/constants/backgroundimage.dart';
@@ -31,7 +31,7 @@ class _SplashpageState extends State<Splashpage>
     _controller.forward().whenComplete(() {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const StudentProfile()),
+        MaterialPageRoute(builder: (context) => LogInScreen()),
       );
     });
   }

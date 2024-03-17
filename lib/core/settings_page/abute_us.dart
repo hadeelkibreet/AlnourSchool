@@ -4,7 +4,11 @@ import '../../constants/constants/backgroundimage.dart';
 import '../../constants/constants/images.dart';
 
 class AbuteUs extends StatefulWidget {
-  const AbuteUs({Key? key}) : super(key: key);
+  //final String uid;
+
+  const AbuteUs({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AbuteUs> createState() => _AbuteUsState();

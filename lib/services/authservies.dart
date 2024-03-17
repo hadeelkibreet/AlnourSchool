@@ -13,7 +13,6 @@ Future<String?> loginWithEmailAndPassword(String email, String password) async {
         .signInWithEmailAndPassword(email: email, password: password);
     final User? user = userCredential.user;
     final uid = user?.uid;
-
     print('Login success');
     return uid;
   } on FirebaseAuthException catch (e) {
