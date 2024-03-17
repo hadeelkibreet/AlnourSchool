@@ -1,11 +1,6 @@
-import 'dart:io';
-
 import 'package:alnour/constants/constants/backgroundimage.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart';
 
 import '../../constants/constants/images.dart';
 import '../../services/authservies.dart';
@@ -25,35 +20,6 @@ class StudentProfile extends ConsumerStatefulWidget {
 }
 
 class _StudentProfileState extends ConsumerState<StudentProfile> {
-  Future<void> findPhotoPath(String filename) async {
-    final ListResult result = await FirebaseStorage.instance.ref().listAll();
-    for (final Reference ref in result.items) {
-      if (ref.name == filename) {
-        final String fullPath = ref.fullPath;
-        print('Full path of $filename: $fullPath');
-        break;
-      }
-    }
-  }
-
-  Future<void> uploadPhotoToFirebase(File photoFile) async {
-    try {
-      String fileName = basename(photoFile.path);
-      Reference storageReference =
-          FirebaseStorage.instance.ref().child('profile/$fileName');
-      UploadTask uploadTask = storageReference.putFile(photoFile);
-      await uploadTask.whenComplete(() => print('Photo uploaded'));
-    } catch (error) {
-      print('Error uploading photo: $error');
-    }
-  }
-
-  Future<String> getImageUrl(String filePath) async {
-    firebase_storage.Reference ref =
-        firebase_storage.FirebaseStorage.instance.ref(filePath);
-    return await ref.getDownloadURL();
-  }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -298,11 +264,6 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
                             print(userinfo.value!.email.toString());
                           },
                           child: Text('data')),
-                      Image.network(
-                        imageUrl,
-                        height: 50,
-                        width: 50,
-                      ),
                     ],
                   ),
                 ),

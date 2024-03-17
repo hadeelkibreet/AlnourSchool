@@ -76,33 +76,48 @@ Future<void> fetchStudentInformation(String uid) async {
   }
 }
 
-final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
-  // final db = FirebaseFirestore.instance;
-  // final uid = ref.read(UidProvider);
-  // final docRef = db.collection("newstudent").doc(uid);
-  // docRef.get().then(
-  //   (DocumentSnapshot doc) {
-  //     final data = doc.data() as Map<String, dynamic>;
-  //     print(data.toString());
-  //   },
-  //   onError: (e) => print("Error getting document: $e"),
-  // );
+final fetchStreamProvider = StreamProvider.autoDispose<StudentModel>((ref) {
   final db = FirebaseFirestore.instance;
   final uid = ref.read(UidProvider);
   final docRef = db.collection("newstudent").doc(uid);
-  final snapshot = await docRef.get();
-  if (snapshot.exists) {
+
+  return docRef.snapshots().map((snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
     final student = StudentModel.fromMap(data);
-    print(data.toString());
-    print('------------------------------------------------------------------');
-    print(student.toString());
-    yield student;
-  } else {
-    onError:
-    (e) => print("Error getting document: $e");
-  }
+    return student;
+  });
 });
+//زبط شي
+// final fetchStreamProvider = StreamProvider<StudentModel>((ref) {
+//   final db = FirebaseFirestore.instance;
+//   final uid = ref.read(UidProvider);
+//   final docRef = db.collection("newstudent").doc(uid);
+//
+//   return docRef.snapshots().map((snapshot) {
+//     final data = snapshot.data() as Map<String, dynamic>;
+//     final student = StudentModel.fromMap(data);
+//
+//     return student;
+//   });
+// });
+
+// final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
+//   final db = FirebaseFirestore.instance;
+//   final uid = ref.read(UidProvider);
+//   final docRef = db.collection("newstudent").doc(uid);
+//   final snapshot = await docRef.get();
+//   if (snapshot.exists) {
+//     final data = snapshot.data() as Map<String, dynamic>;
+//     final student = StudentModel.fromMap(data);
+//     print(data.toString());
+//     print('------------------------------------------------------------------');
+//     print(student.toString());
+//     yield student;
+//   } else {
+//     onError:
+//     (e) => print("Error getting document: $e");
+//   }
+// });
 
 //////////////////////////////////////////////////////////////////////////////////
 
