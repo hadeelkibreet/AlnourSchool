@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:alnour/constants/constants/backgroundimage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 
 import '../../constants/constants/images.dart';
-import '../../model/student_model.dart';
 import '../../services/authservies.dart';
 import '../../services/student_service.dart';
 import '../auth/login.dart';
@@ -25,8 +25,6 @@ class StudentProfile extends ConsumerStatefulWidget {
 }
 
 class _StudentProfileState extends ConsumerState<StudentProfile> {
-  final String filename = 'photo.jpg'; // Replace with your filename
-
   Future<void> findPhotoPath(String filename) async {
     final ListResult result = await FirebaseStorage.instance.ref().listAll();
     for (final Reference ref in result.items) {
@@ -50,22 +48,20 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
     }
   }
 
+  Future<String> getImageUrl(String filePath) async {
+    firebase_storage.Reference ref =
+        firebase_storage.FirebaseStorage.instance.ref(filePath);
+    return await ref.getDownloadURL();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     final userinfo = ref.watch(fetchStreamProvider);
-    // final String filename =
-    //   userinfo.value!.profileimg.toString(); // Replace with your filename
-
-    // final uid = ref.read(UidProvider);
-    final StudentModel student;
-    int requst = 1;
-    int indexdata = 0;
-    // final studentData =
-    //     ref.watch(servieceProvider).studentProvider(UidProvider.toString());
-    // final studentModel = ref.watch(servieceProvider(widget.uid));
-    // final Userall = ref.watch(servieceProvider).studentProvider(widget.uid);
+    int requst = ref.watch(fetchStreamProvider).value!.Accept.id;
+    String imageUrl =
+        'https://firebasestorage.googleapis.com/v0/b/alnour-e081c.appspot.com/o/profile%2F${userinfo.value!.profileimg.toString()}?alt=media';
 
     return SafeArea(
       child: Scaffold(
@@ -75,34 +71,39 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
             padding: EdgeInsets.zero,
             children: [
               UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: const Color(0x7E41007F)),
-                  accountName: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        userinfo.value!.name.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'boutros',
-                        ),
+                decoration: BoxDecoration(color: const Color(0x7E41007F)),
+                accountName: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      userinfo.value!.name.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'boutros',
                       ),
                     ),
                   ),
-                  accountEmail: Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        userinfo.value!.email.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'boutros',
-                        ),
+                ),
+                accountEmail: Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      userinfo.value!.email.toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'boutros',
                       ),
                     ),
                   ),
-                  currentAccountPicture: Image.network('src')),
+                ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    imageUrl,
+                  ), // رابط الصورة
+                ),
+              ),
               ListTile(
                 trailing: Icon(
                   Icons.contact_support_outlined,
@@ -291,9 +292,17 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
                       ),
                       ElevatedButton(
                           onPressed: () {
+                            String filename =
+                                userinfo.value!.profileimg.toString();
+
                             print(userinfo.value!.email.toString());
                           },
                           child: Text('data')),
+                      Image.network(
+                        imageUrl,
+                        height: 50,
+                        width: 50,
+                      ),
                     ],
                   ),
                 ),
