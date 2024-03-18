@@ -20,6 +20,18 @@ class StudentService {
     pendingCollection.doc(model.uid).set(model.toMap());
   }
 
+  final ClsCollection = FirebaseFirestore.instance.collection('cls');
+
+// Add field to document
+  void addFieldToClsDocument(
+      String documentId, String fieldName, String fieldValue) {
+    ClsCollection.doc(documentId).update({
+      fieldName: fieldValue,
+    });
+  }
+
+// Usage
+
   //get data
 
   // final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {

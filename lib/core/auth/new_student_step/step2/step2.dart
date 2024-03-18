@@ -31,6 +31,7 @@ class _Step2State extends ConsumerState<Step2> {
             setState(() {
               filePath = result.files.single.path;
               profileFileName = result.files.single.name;
+              print('---------------------------------${profileFileName}');
               uploadFileprofile();
             });
             break;
@@ -56,6 +57,8 @@ class _Step2State extends ConsumerState<Step2> {
   Future<void> uploadFileprofile() async {
     if (filePath != null) {
       File file = File(filePath!);
+      print(
+          "------------------------*************************-${file.path.split('/').last.toString()}");
       try {
         await firebase_storage.FirebaseStorage.instance
             .ref('profile/${file.path.split('/').last}')
@@ -63,9 +66,9 @@ class _Step2State extends ConsumerState<Step2> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('File uploaded successfully.')),
         );
-        ref
-            .read(ProfileImgProvider.notifier)
-            .update((state) => profileFileName!);
+        setState(() {
+          profileFileName = file.path.split('/').last;
+        });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to upload file.')),
@@ -77,6 +80,31 @@ class _Step2State extends ConsumerState<Step2> {
       );
     }
   }
+
+  // Future<void> uploadFileprofile() async {
+  //   if (filePath != null) {
+  //     File file = File(filePath!);
+  //     try {
+  //       await firebase_storage.FirebaseStorage.instance
+  //           .ref('profile/${file.path.split('/').last}')
+  //           .putFile(file);
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('File uploaded successfully.')),
+  //       );
+  //       ref
+  //           .read(ProfileImgProvider.notifier)
+  //           .update((state) => profileFileName!);
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text('Failed to upload file.')),
+  //       );
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('No file selected.')),
+  //     );
+  //   }
+  // }
 
   Future<void> uploadFileId() async {
     if (filePath != null) {

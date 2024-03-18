@@ -82,6 +82,8 @@ class _NewStudentState extends ConsumerState<NewStudent> {
           certificateimg: finalcertificateimg,
         ));
     ref.read(servieceProvider).addpending(PendingModel(uid: uid.toString()));
+    ref.read(servieceProvider).addFieldToClsDocument(
+        finalCls.toString(), "name_${uid.toString()}", uid.toString());
   }
 
   void _previousPage() {
