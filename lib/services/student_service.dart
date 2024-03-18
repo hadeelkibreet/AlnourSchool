@@ -76,14 +76,15 @@ Future<void> fetchStudentInformation(String uid) async {
   }
 }
 
-final fetchStreamProvider = StreamProvider.autoDispose<StudentModel>((ref) {
+final fetchStreamProvider =
+    StreamProvider.autoDispose<StudentModel>((ref) async* {
   final db = FirebaseFirestore.instance;
   final uid = ref.read(UidProvider);
   final docRef = db.collection("newstudent").doc(uid);
 
-  return docRef.snapshots().map((snapshot) {
+  yield* docRef.snapshots().map((snapshot) {
     final data = snapshot.data() as Map<String, dynamic>;
-    final student = StudentModel.fromMap(data);
+    final student = StudentModel.fromMap(data ?? {});
     return student;
   });
 });
