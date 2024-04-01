@@ -29,9 +29,11 @@ class _SplashpageState extends State<Splashpage>
     ).animate(_controller);
 
     _controller.forward().whenComplete(() {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LogInScreen()),
+        MaterialPageRoute(
+          builder: (context) => LogInScreen(),
+        ),
       );
     });
   }

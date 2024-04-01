@@ -17,6 +17,7 @@ import '../../providers/image_provider.dart';
 import '../../providers/select_gender_provider.dart';
 import '../../providers/services_provider.dart';
 import '../../providers/uid_provider.dart';
+import '../student_profile/student_profile.dart';
 
 class NewStudent extends ConsumerStatefulWidget {
   const NewStudent({Key? key}) : super(key: key);
@@ -39,16 +40,80 @@ class _NewStudentState extends ConsumerState<NewStudent> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController chakepasswordController = TextEditingController();
+  final TextEditingController checkpasswordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController adrissController = TextEditingController();
 
   int _currentPageIndex = 0;
   List<String> _stepTitles = ['w', 'S', 'p'];
   void _nextPage() {
-    if (_currentPageIndex < _stepTitles.length - 1) {
-      _pageController.nextPage(
-          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    final finalprofileimg = ref.read(ProfileImgProvider);
+    final finalidimg = ref.read(IdImgProvider);
+    final finalcertificateimg = ref.read(CertificateImgProvider);
+    if (_currentPageIndex == 0) {
+      if (nameController.text.isNotEmpty &&
+          fathernameController.text.isNotEmpty &&
+          mathernameController.text.isNotEmpty &&
+          lastnameController.text.isNotEmpty) {
+        if (_currentPageIndex < _stepTitles.length - 1) {
+          _pageController.nextPage(
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '.الرجاء ملئ جميع الحقول',
+              textAlign: TextAlign.right,
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+    if (_currentPageIndex == 1) {
+      if (emailController.text.isNotEmpty &&
+          phoneController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty &&
+          checkpasswordController.text.isNotEmpty &&
+          checkpasswordController.text == passwordController.text) {
+        if (_currentPageIndex < _stepTitles.length - 1) {
+          _pageController.nextPage(
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              checkpasswordController.text != passwordController.text
+                  ? '.كلمة المرور غير متطابقة'
+                  : '.الرجاء ملئ جميع الحقول',
+              textAlign: TextAlign.right,
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+    if (_currentPageIndex == 2) {
+      if (finalprofileimg != '' &&
+          finalidimg != '' &&
+          finalcertificateimg != '') {
+        if (_currentPageIndex < _stepTitles.length - 1) {
+          _pageController.nextPage(
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '.الرجاء تحميل الصور بصيغة jpg , png',
+              textAlign: TextAlign.right,
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -84,6 +149,15 @@ class _NewStudentState extends ConsumerState<NewStudent> {
     ref.read(servieceProvider).addpending(PendingModel(uid: uid.toString()));
     ref.read(servieceProvider).addFieldToClsDocument(
         finalCls.toString(), "name_${uid.toString()}", uid.toString());
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            //AbuteUs(uid: uid),
+            StudentProfile(uid: uid.toString()),
+      ),
+    );
   }
 
   void _previousPage() {
@@ -97,6 +171,15 @@ class _NewStudentState extends ConsumerState<NewStudent> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: _currentPageIndex);
+    nameController.dispose;
+    fathernameController.dispose;
+    mathernameController.dispose;
+    lastnameController.dispose;
+    adrissController.dispose;
+    phoneController.dispose;
+    passwordController.dispose;
+    emailController.dispose;
+    checkpasswordController.dispose;
   }
 
   @override
@@ -216,8 +299,8 @@ class _NewStudentState extends ConsumerState<NewStudent> {
                                     child: Step1(
                                         emailController: emailController,
                                         passwordController: passwordController,
-                                        chakepasswordController:
-                                            chakepasswordController,
+                                        checkpasswordController:
+                                            checkpasswordController,
                                         phoneController: phoneController,
                                         adrissController: adrissController)),
                                 Center(child: Step2()),
@@ -246,9 +329,7 @@ class _NewStudentState extends ConsumerState<NewStudent> {
                     ),
               FloatingActionButton(
                 onPressed: () {
-                  if (chakepasswordController.text == passwordController.text) {
-                    _currentPageIndex == 2 ? _finalPage() : _nextPage();
-                  }
+                  _currentPageIndex == 2 ? _finalPage() : _nextPage();
                 },
                 child: _currentPageIndex == 2
                     ? Icon(Icons.add)

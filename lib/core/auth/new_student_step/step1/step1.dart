@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class Step1 extends ConsumerStatefulWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  final TextEditingController chakepasswordController;
+  final TextEditingController checkpasswordController;
   final TextEditingController phoneController;
   final TextEditingController adrissController;
 
@@ -13,7 +13,7 @@ class Step1 extends ConsumerStatefulWidget {
       {Key? key,
       required this.emailController,
       required this.passwordController,
-      required this.chakepasswordController,
+      required this.checkpasswordController,
       required this.phoneController,
       required this.adrissController})
       : super(key: key);
@@ -24,6 +24,8 @@ class Step1 extends ConsumerStatefulWidget {
 
 class _Step1State extends ConsumerState<Step1> {
   bool passwordVisible = false;
+  bool checkpasswordVisible = false;
+
   final GlobalKey _formkey = GlobalKey<FormState>();
 
   @override
@@ -77,7 +79,7 @@ class _Step1State extends ConsumerState<Step1> {
           TextField(
             controller: widget.passwordController,
             textAlign: TextAlign.right,
-            obscureText: passwordVisible,
+            obscureText: !passwordVisible,
             decoration: InputDecoration(
               hintText: 'ادخل كلمة المرور',
               hintStyle: TextStyle(color: Colors.grey),
@@ -109,10 +111,10 @@ class _Step1State extends ConsumerState<Step1> {
           Form(
             key: _formkey,
             child: TextField(
-              controller: widget.chakepasswordController,
+              controller: widget.checkpasswordController,
               onChanged: (value) {},
               textAlign: TextAlign.right,
-              obscureText: !passwordVisible,
+              obscureText: !checkpasswordVisible,
               decoration: InputDecoration(
                 hintText: 'التأكد من كلمة المرور',
                 hintStyle: TextStyle(color: Colors.grey),
@@ -128,11 +130,13 @@ class _Step1State extends ConsumerState<Step1> {
                 prefixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
-                      passwordVisible = !passwordVisible;
+                      checkpasswordVisible = !checkpasswordVisible;
                     });
                   },
                   child: Icon(
-                    passwordVisible ? Icons.visibility : Icons.visibility_off,
+                    checkpasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                     color: Colors.grey.withOpacity(0.9),
                   ),
                 ),

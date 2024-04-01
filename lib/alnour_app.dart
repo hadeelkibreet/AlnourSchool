@@ -1,6 +1,6 @@
-import 'package:alnour/core/auth/login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'core/splash_page/splash.dart';
 
 class AlnourApp extends StatelessWidget {
   const AlnourApp({super.key});
@@ -13,9 +13,7 @@ class AlnourApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: FirebaseAuth.instance.currentUser == null
-          ? LogInScreen()
-          : LogInScreen(),
+      home: Splashpage(),
     );
   }
 }
