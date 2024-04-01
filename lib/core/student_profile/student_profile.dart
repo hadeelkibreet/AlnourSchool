@@ -202,7 +202,12 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text('لا'),
+                                    child: Text(
+                                      'لا',
+                                      style: TextStyle(
+                                        fontFamily: 'boutros',
+                                      ),
+                                    ),
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
@@ -215,7 +220,12 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
                                         (route) => false,
                                       );
                                     },
-                                    child: Text('نعم'),
+                                    child: Text(
+                                      'نعم',
+                                      style: TextStyle(
+                                        fontFamily: 'boutros',
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

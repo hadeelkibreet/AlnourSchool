@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -55,102 +56,75 @@ class _Step2State extends ConsumerState<Step2> {
   }
 
   Future<void> uploadFileprofile() async {
+    final random = Random();
+    final String randomNumber = random.nextInt(100).toString();
     if (filePath != null) {
       File file = File(filePath!);
       print(
           "------------------------*************************-${file.path.split('/').last.toString()}");
       try {
         await firebase_storage.FirebaseStorage.instance
-            .ref('profile/${file.path.split('/').last}')
+            .ref(
+                'profile/${randomNumber + file.path.split('/').last.toString()!}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('File uploaded successfully.')),
+          SnackBar(content: Text('. تم تحميل بنجاح')),
         );
         setState(() {
           profileFileName = file.path.split('/').last;
         });
+        ref
+            .read(ProfileImgProvider.notifier)
+            .update((state) => profileFileName!);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to upload file.')),
+          SnackBar(content: Text('. فشل تحميل الصورة')),
         );
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No file selected.')),
-      );
     }
   }
 
-  // Future<void> uploadFileprofile() async {
-  //   if (filePath != null) {
-  //     File file = File(filePath!);
-  //     try {
-  //       await firebase_storage.FirebaseStorage.instance
-  //           .ref('profile/${file.path.split('/').last}')
-  //           .putFile(file);
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('File uploaded successfully.')),
-  //       );
-  //       ref
-  //           .read(ProfileImgProvider.notifier)
-  //           .update((state) => profileFileName!);
-  //     } catch (e) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Failed to upload file.')),
-  //       );
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('No file selected.')),
-  //     );
-  //   }
-  // }
-
   Future<void> uploadFileId() async {
+    final random = Random();
+    final String randomNumber = random.nextInt(100).toString();
     if (filePath != null) {
       File file = File(filePath!);
       try {
         await firebase_storage.FirebaseStorage.instance
-            .ref('id/${file.path.split('/').last}')
+            .ref('id/${randomNumber + file.path.split('/').last}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('File uploaded successfully.')),
+          SnackBar(content: Text('. تم تحميل بنجاح')),
         );
         ref.read(IdImgProvider.notifier).update((state) => idFileName!);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to upload file.')),
+          SnackBar(content: Text('. فشل تحميل الصورة')),
         );
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No file selected.')),
-      );
     }
   }
 
   Future<void> uploadFilecertificate() async {
+    final random = Random();
+    final String randomNumber = random.nextInt(100).toString();
     if (filePath != null) {
       File file = File(filePath!);
       try {
         await firebase_storage.FirebaseStorage.instance
-            .ref('certificate/${file.path.split('/').last}')
+            .ref('certificate/${randomNumber + file.path.split('/').last}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('File uploaded successfully.')),
+          SnackBar(content: Text('. تم تحميل بنجاح')),
         );
         ref
             .read(CertificateImgProvider.notifier)
             .update((state) => certificateFileName!);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to upload file.')),
+          SnackBar(content: Text('. فشل تحميل الصورة')),
         );
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No file selected.')),
-      );
     }
   }
 

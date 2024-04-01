@@ -142,9 +142,9 @@ class _NewStudentState extends ConsumerState<NewStudent> {
           Accept: StudentStatus.pending,
           phone: phoneController.text,
           gender: finalgender.toString(),
-          profileimg: finalprofileimg,
-          idimg: finalidimg,
-          certificateimg: finalcertificateimg,
+          profileimg: finalprofileimg.toString(),
+          idimg: finalidimg.toString(),
+          certificateimg: finalcertificateimg.toString(),
         ));
     ref.read(servieceProvider).addpending(PendingModel(uid: uid.toString()));
     ref.read(servieceProvider).addFieldToClsDocument(
