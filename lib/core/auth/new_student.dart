@@ -7,6 +7,7 @@ import 'package:alnour/model/student_model.dart';
 import 'package:alnour/providers/select_cls_provider.dart';
 import 'package:alnour/providers/select_date_provider.dart';
 import 'package:alnour/services/authservies.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -149,6 +150,16 @@ class _NewStudentState extends ConsumerState<NewStudent> {
     ref.read(servieceProvider).addpending(PendingModel(uid: uid.toString()));
     ref.read(servieceProvider).addFieldToClsDocument(
         finalCls.toString(), "name_${uid.toString()}", uid.toString());
+
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    messaging.requestPermission();
+    messaging.getToken().then((token) {
+      print('Token: $token');
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print(
+          'Received notification: ${message.notification?.title} - ${message.notification?.body}');
+    });
 
     Navigator.pushReplacement(
       context,

@@ -1,4 +1,5 @@
 import 'package:alnour/core/auth/new_student.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -171,6 +172,19 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                               .read(UidProvider.notifier)
                               .update((state) => uid.toString());
                           if (uid != null) {
+                            FirebaseMessaging messaging =
+                                FirebaseMessaging.instance;
+
+                            messaging.requestPermission();
+                            messaging.getToken().then((token) {
+                              print('Token: $token');
+                            });
+
+                            FirebaseMessaging.onMessage
+                                .listen((RemoteMessage message) {
+                              print(
+                                  'Received notification: ${message.notification?.title} - ${message.notification?.body}');
+                            });
                             print(uid);
                             Navigator.pushReplacement(
                               context,

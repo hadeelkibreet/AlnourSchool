@@ -68,7 +68,10 @@ class _Step2State extends ConsumerState<Step2> {
                 'profile/${randomNumber + file.path.split('/').last.toString()!}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('. تم تحميل بنجاح')),
+          SnackBar(
+            content: Text('. تم تحميل بنجاح'),
+            backgroundColor: Colors.green,
+          ),
         );
         setState(() {
           profileFileName = file.path.split('/').last;
@@ -78,7 +81,10 @@ class _Step2State extends ConsumerState<Step2> {
             .update((state) => profileFileName!);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('. فشل تحميل الصورة')),
+          SnackBar(
+            content: Text('. فشل تحميل الصورة'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -94,12 +100,18 @@ class _Step2State extends ConsumerState<Step2> {
             .ref('id/${randomNumber + file.path.split('/').last}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('. تم تحميل بنجاح')),
+          SnackBar(
+            content: Text('. تم تحميل بنجاح'),
+            backgroundColor: Colors.green,
+          ),
         );
         ref.read(IdImgProvider.notifier).update((state) => idFileName!);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('. فشل تحميل الصورة')),
+          SnackBar(
+            content: Text('. فشل تحميل الصورة'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -115,14 +127,20 @@ class _Step2State extends ConsumerState<Step2> {
             .ref('certificate/${randomNumber + file.path.split('/').last}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('. تم تحميل بنجاح')),
+          SnackBar(
+            content: Text('. تم تحميل بنجاح'),
+            backgroundColor: Colors.green,
+          ),
         );
         ref
             .read(CertificateImgProvider.notifier)
             .update((state) => certificateFileName!);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('. فشل تحميل الصورة')),
+          SnackBar(
+            content: Text('. فشل تحميل الصورة'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
