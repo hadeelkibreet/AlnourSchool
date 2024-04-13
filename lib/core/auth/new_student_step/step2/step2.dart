@@ -64,8 +64,7 @@ class _Step2State extends ConsumerState<Step2> {
           "------------------------*************************-${file.path.split('/').last.toString()}");
       try {
         await firebase_storage.FirebaseStorage.instance
-            .ref(
-                'profile/${randomNumber + file.path.split('/').last.toString()!}')
+            .ref('profile/${file.path.split('/').last.toString()!}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

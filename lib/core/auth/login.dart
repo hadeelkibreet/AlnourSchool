@@ -174,17 +174,16 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                           if (uid != null) {
                             FirebaseMessaging messaging =
                                 FirebaseMessaging.instance;
-
                             messaging.requestPermission();
                             messaging.getToken().then((token) {
                               print('Token: $token');
                             });
-
                             FirebaseMessaging.onMessage
                                 .listen((RemoteMessage message) {
                               print(
                                   'Received notification: ${message.notification?.title} - ${message.notification?.body}');
                             });
+
                             print(uid);
                             Navigator.pushReplacement(
                               context,
@@ -221,21 +220,21 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                   SizedBox(
                     height: 25,
                   ),
-                  DefaultTextStyle(
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontFamily: 'boutros',
-                        fontSize: 12,
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          signOutInApp();
-                        },
-                        child: Text('هل نسيت كلمة المرور؟'),
-                      )),
-                  SizedBox(
-                    height: 25,
-                  ),
+                  // DefaultTextStyle(
+                  //     style: TextStyle(
+                  //       color: Colors.blueAccent,
+                  //       fontFamily: 'boutros',
+                  //       fontSize: 12,
+                  //     ),
+                  //     child: TextButton(
+                  //       onPressed: () {
+                  //         signOutInApp();
+                  //       },
+                  //       child: Text('هل نسيت كلمة المرور؟'),
+                  //     )),
+                  // SizedBox(
+                  //   height: 25,
+                  // ),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
