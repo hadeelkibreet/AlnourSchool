@@ -96,7 +96,7 @@ class _Step2State extends ConsumerState<Step2> {
       File file = File(filePath!);
       try {
         await firebase_storage.FirebaseStorage.instance
-            .ref('id/${randomNumber + file.path.split('/').last}')
+            .ref('id/${file.path.split('/').last}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -123,7 +123,7 @@ class _Step2State extends ConsumerState<Step2> {
       File file = File(filePath!);
       try {
         await firebase_storage.FirebaseStorage.instance
-            .ref('certificate/${randomNumber + file.path.split('/').last}')
+            .ref('certificate/${file.path.split('/').last}')
             .putFile(file);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

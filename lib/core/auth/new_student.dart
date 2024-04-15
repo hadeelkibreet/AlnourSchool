@@ -2,7 +2,6 @@ import 'package:alnour/core/auth/new_student_step/step0/step0.dart';
 import 'package:alnour/core/auth/new_student_step/step1/step1.dart';
 import 'package:alnour/core/auth/new_student_step/step2/step2.dart';
 import 'package:alnour/enums/student_enum.dart';
-import 'package:alnour/model/pending_model.dart';
 import 'package:alnour/model/student_model.dart';
 import 'package:alnour/providers/select_cls_provider.dart';
 import 'package:alnour/providers/select_date_provider.dart';
@@ -123,12 +122,14 @@ class _NewStudentState extends ConsumerState<NewStudent> {
         emailController.text, passwordController.text);
 
     ref.read(UidProvider.notifier).update((state) => uid.toString());
+
     final finalage = ref.read(selectedDateProvider);
     final finalgender = ref.read(SelectGenderProvider);
     final finalCls = ref.read(ClsProvider);
     final finalprofileimg = ref.read(ProfileImgProvider);
     final finalidimg = ref.read(IdImgProvider);
     final finalcertificateimg = ref.read(CertificateImgProvider);
+
     ref.read(servieceProvider).addstudent(StudentModel(
           uid: uid.toString(),
           age: finalage.toString(),
@@ -147,7 +148,6 @@ class _NewStudentState extends ConsumerState<NewStudent> {
           idimg: finalidimg.toString(),
           certificateimg: finalcertificateimg.toString(),
         ));
-    ref.read(servieceProvider).addpending(PendingModel(uid: uid.toString()));
     ref.read(servieceProvider).addFieldToClsDocument(
         finalCls.toString(), "name_${uid.toString()}", uid.toString());
 
