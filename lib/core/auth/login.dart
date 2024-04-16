@@ -1,4 +1,5 @@
 import 'package:alnour/core/auth/new_student.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -168,34 +169,94 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                         onPressed: () async {
                           final String? uid = await loginWithEmailAndPassword(
                               _emailController.text, _passwordController.text);
+
                           ref
                               .read(UidProvider.notifier)
                               .update((state) => uid.toString());
-                          if (uid != null) {
-                            FirebaseMessaging messaging =
-                                FirebaseMessaging.instance;
-                            messaging.requestPermission();
-                            messaging.getToken().then((token) {
-                              print('Token: $token');
-                            });
-                            FirebaseMessaging.onMessage
-                                .listen((RemoteMessage message) {
-                              print(
-                                  'Received notification: ${message.notification?.title} - ${message.notification?.body}');
-                            });
 
-                            print(uid);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    //AbuteUs(uid: uid),
-                                    StudentProfile(uid: uid),
+                          if (uid != null) {
+                            // The login was successful
+                            final DocumentSnapshot snapshot =
+                                await FirebaseFirestore.instance
+                                    .collection('newstudent')
+                                    .doc(uid)
+                                    .get();
+
+                            if (snapshot.exists) {
+                              // The document with the given uid exists in the collection
+                              print('uid exists in the newstudent collection');
+                              FirebaseMessaging messaging =
+                                  FirebaseMessaging.instance;
+                              messaging.requestPermission();
+                              messaging.getToken().then((token) {
+                                print('Token: $token');
+                              });
+                              FirebaseMessaging.onMessage
+                                  .listen((RemoteMessage message) {
+                                print(
+                                    'Received notification: ${message.notification?.title} - ${message.notification?.body}');
+                              });
+
+                              print(uid);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      //AbuteUs(uid: uid),
+                                      StudentProfile(uid: uid),
+                                ),
+                              );
+                            } else {
+                              // The document with the given uid does not exist in the collection
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('هذا الحساب ليس للطلاب'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              signOutInApp();
+                              print(
+                                  'uid does not exist in the newstudent collection');
+                            }
+                          } else {
+                            // The login failed
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('لا يوجد حساب بهذا الاسم'),
+                                backgroundColor: Colors.red,
                               ),
                             );
-                          } else {
-                            print('no uiddddddddd');
+                            print('no');
                           }
+                          //
+                          // if (uid != null &&
+                          //     uid != 'azYHRoQBV4dnGq41pqQqVOUss9d2'&&
+                          //     FirebaseFirestore.instance.collection('newstudent').
+                          // ) {
+                          //   FirebaseMessaging messaging =
+                          //       FirebaseMessaging.instance;
+                          //   messaging.requestPermission();
+                          //   messaging.getToken().then((token) {
+                          //     print('Token: $token');
+                          //   });
+                          //   FirebaseMessaging.onMessage
+                          //       .listen((RemoteMessage message) {
+                          //     print(
+                          //         'Received notification: ${message.notification?.title} - ${message.notification?.body}');
+                          //   });
+                          //
+                          //   print(uid);
+                          //   Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) =>
+                          //           //AbuteUs(uid: uid),
+                          //           StudentProfile(uid: uid),
+                          //     ),
+                          //   );
+                          // } else {
+                          //   print('no uiddddddddd');
+                          // }
                           // signOutInApp();
                         },
                         style: ButtonStyle(
