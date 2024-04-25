@@ -1,11 +1,6 @@
-import 'package:alnour/constants/constants/images.dart';
 import 'package:flutter/material.dart';
 
-
-
 class BackGroundImage extends StatelessWidget {
-
-
   const BackGroundImage({super.key});
 
   @override
@@ -13,23 +8,17 @@ class BackGroundImage extends StatelessWidget {
     return Stack(
       children: [
         Container(
-    decoration: BoxDecoration(
-    gradient: LinearGradient(
-      colors: [
-        Color(0xFF092D71), // Hex 092D71FF
-        Color(0xF441007F),
-      ], // Specify your two colors here
-      begin: Alignment.topLeft,
-      end: Alignment.bottomLeft,
-    ),
-    ),
-    )
-
-    //   Image.asset(ImageAssets.background,
-      //   width: double.infinity,
-        // height:double.infinity,
-         //fit: BoxFit.cover,
-
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF092D71), // Hex 092D71FF
+                Color(0xF441007F),
+              ], // Specify your two colors here
+              begin: Alignment.topLeft,
+              end: Alignment.bottomLeft,
+            ),
+          ),
+        )
       ],
     );
   }

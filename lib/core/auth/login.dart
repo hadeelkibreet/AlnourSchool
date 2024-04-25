@@ -228,36 +228,6 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                             );
                             print('no');
                           }
-                          //
-                          // if (uid != null &&
-                          //     uid != 'azYHRoQBV4dnGq41pqQqVOUss9d2'&&
-                          //     FirebaseFirestore.instance.collection('newstudent').
-                          // ) {
-                          //   FirebaseMessaging messaging =
-                          //       FirebaseMessaging.instance;
-                          //   messaging.requestPermission();
-                          //   messaging.getToken().then((token) {
-                          //     print('Token: $token');
-                          //   });
-                          //   FirebaseMessaging.onMessage
-                          //       .listen((RemoteMessage message) {
-                          //     print(
-                          //         'Received notification: ${message.notification?.title} - ${message.notification?.body}');
-                          //   });
-                          //
-                          //   print(uid);
-                          //   Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           //AbuteUs(uid: uid),
-                          //           StudentProfile(uid: uid),
-                          //     ),
-                          //   );
-                          // } else {
-                          //   print('no uiddddddddd');
-                          // }
-                          // signOutInApp();
                         },
                         style: ButtonStyle(
                           backgroundColor:
@@ -281,21 +251,6 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                   SizedBox(
                     height: 25,
                   ),
-                  // DefaultTextStyle(
-                  //     style: TextStyle(
-                  //       color: Colors.blueAccent,
-                  //       fontFamily: 'boutros',
-                  //       fontSize: 12,
-                  //     ),
-                  //     child: TextButton(
-                  //       onPressed: () {
-                  //         signOutInApp();
-                  //       },
-                  //       child: Text('هل نسيت كلمة المرور؟'),
-                  //     )),
-                  // SizedBox(
-                  //   height: 25,
-                  // ),
                   TextButton(
                     onPressed: () {
                       Navigator.push(

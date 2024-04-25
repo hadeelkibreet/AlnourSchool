@@ -29,39 +29,6 @@ class StudentService {
       fieldName: fieldValue,
     });
   }
-
-// Usage
-
-  //get data
-
-  // final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
-  //   String uid = ref.read(
-  //       UidProvider); // استبدل 'your_uid' بالـ uid الخاص بالمستخدم المطلوب
-  //
-  //   final getData = FirebaseFirestore.instance
-  //       .collection('newstudent')
-  //       .where('uid', isEqualTo: uid) // تصفية النتائج بناءً على الـ uid
-  //       .snapshots()
-  //       .map((event) => event.docs
-  //           .map((snapshot) => StudentModel.fromSnapshot(snapshot))
-  //           .first); // استرجاع الطالب الوحيد
-  //
-  //   yield* getData;
-  // });
-
-  // final studentProvider =
-  //     FutureProvider.family<StudentModel, String>((ref, studentId) async {
-  //   // Replace 'students' with the actual collection name in Firestore
-  //   final document =
-  //       FirebaseFirestore.instance.collection('newstudent').doc(studentId);
-  //
-  //   final snapshot = await document.get();
-  //   if (snapshot.exists) {
-  //     return StudentModel.fromSnapshot(snapshot);
-  //   } else {
-  //     throw Exception('Student not found');
-  //   }
-  // });
 }
 
 // استدعاء معلومات الطالب باستخدام UID
@@ -100,46 +67,3 @@ final fetchStreamProvider =
     return student;
   });
 });
-//زبط شي
-// final fetchStreamProvider = StreamProvider<StudentModel>((ref) {
-//   final db = FirebaseFirestore.instance;
-//   final uid = ref.read(UidProvider);
-//   final docRef = db.collection("newstudent").doc(uid);
-//
-//   return docRef.snapshots().map((snapshot) {
-//     final data = snapshot.data() as Map<String, dynamic>;
-//     final student = StudentModel.fromMap(data);
-//
-//     return student;
-//   });
-// });
-
-// final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
-//   final db = FirebaseFirestore.instance;
-//   final uid = ref.read(UidProvider);
-//   final docRef = db.collection("newstudent").doc(uid);
-//   final snapshot = await docRef.get();
-//   if (snapshot.exists) {
-//     final data = snapshot.data() as Map<String, dynamic>;
-//     final student = StudentModel.fromMap(data);
-//     print(data.toString());
-//     print('------------------------------------------------------------------');
-//     print(student.toString());
-//     yield student;
-//   } else {
-//     onError:
-//     (e) => print("Error getting document: $e");
-//   }
-// });
-
-//////////////////////////////////////////////////////////////////////////////////
-
-// final fetchStreamProvider = StreamProvider<StudentModel>((ref) async* {
-//   final getData = FirebaseFirestore.instance
-//       .collection('newstudent')
-//       .snapshots()
-//       .map((event) => event.docs
-//           .map((snapshot) => StudentModel.fromSnapshot(snapshot))
-//           .first);
-//   yield* getData;
-// });

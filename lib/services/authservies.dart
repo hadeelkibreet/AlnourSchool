@@ -23,24 +23,6 @@ Future<String?> loginWithEmailAndPassword(String email, String password) async {
     return null;
   }
 }
-// void loginWithEmailAndPassword(String email, String password) async {
-//   try {
-//     UserCredential userCredential = await FirebaseAuth.instance
-//         .signInWithEmailAndPassword(email: email, password: password);
-//     final User? user = userCredential.user;
-//     final providerContainer = ProviderContainer();
-//     providerContainer
-//         .read(UidProvider.notifier)
-//         .update((state) => user?.uid ?? '');
-//
-//     //print(uidProvider);
-//     print('login sucss');
-//   } on FirebaseAuthException catch (e) {
-//     print('login faild $e');
-//   } catch (e) {
-//     print('Something else happend $e');
-//   }
-// }
 
 void signOutInApp() async {
   await FirebaseAuth.instance.signOut();
