@@ -281,10 +281,10 @@ class _StudentProfileState extends ConsumerState<StudentProfile> {
                           Text(
                             (() {
                               switch (requst) {
-                                case 0:
-                                  return 'لقد تم رفض طلبك ';
                                 case 1:
                                   return 'طلب التسجيل قيد المعالجة';
+                                case 0:
+                                  return 'لقد تم رفض طلبك ';
                                 case 2:
                                   return 'لقد تم قبولك';
                                 default:

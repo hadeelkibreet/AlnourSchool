@@ -104,11 +104,11 @@ class StudentModel {
   static StudentStatus getStudentStates(int index) {
     switch (index) {
       case 0:
-        return StudentStatus.accepted;
+        return StudentStatus.rejected;
       case 1:
         return StudentStatus.pending;
       case 2:
-        return StudentStatus.rejected;
+        return StudentStatus.accepted;
     }
     return StudentStatus.unknown;
   }
